@@ -1,0 +1,140 @@
+/* Estilos para o Header */
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 84px;
+    background-color: var(--bg-secondary);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.logo-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    flex: 1;
+    justify-content: center;
+}
+
+.explore-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.explore-container:hover {
+    background-color: #333;
+}
+
+.explore-text {
+    font-size: 16px;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.grid-icon {
+    color: var(--text-primary);
+}
+
+/* Estilos do Input de Pesquisa */
+.search-bar-container {
+    flex: 1;
+    max-width: 250px;
+}
+
+.search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-search);
+    border-radius: 8px;
+    padding: 0 12px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-input-wrapper:focus-within {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 5px var(--color-primary);
+}
+
+.search-icon {
+    color: #888;
+    margin-right: 8px;
+    transition: color 0.3s ease;
+}
+
+.search-input-wrapper:focus-within .search-icon {
+    color: var(--color-primary);
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.search-input::placeholder {
+    color: #888;
+}
+
+.user-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.photo-img{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-container{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 45px;
+}
+
+.info-profile-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 6px;
+}
+
+.greeting-container{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--color-primary);
+}
