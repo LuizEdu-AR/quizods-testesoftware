@@ -138,3 +138,24 @@
     gap: 5px;
     color: var(--color-primary);
 }
+
+.sun-icon {
+    color: var(--color-primary); /* Mesma cor roxa da saudação */
+}
+
+.moon-icon {
+    color: var(--color-primary); /* Mesma cor roxa da saudação */
+}
+
+.greeting-text {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.user-name-container {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
