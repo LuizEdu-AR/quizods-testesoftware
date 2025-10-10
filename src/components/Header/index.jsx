@@ -1,18 +1,28 @@
 import LogoODS from '../../assets/img/logo-ods.png'
 import FotoPessoal from '../../assets/img/foto-pessoal.jpg'
+import userService from '../../services/userService'
 
 import './index.css'
 
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { HiOutlineViewGrid } from 'react-icons/hi'
-import { BiSearch } from 'react-icons/bi'
+import { BiSearch, BiLogOut } from 'react-icons/bi'
 import { BsSun, BsMoon } from 'react-icons/bs'
 import { HiSun } from 'react-icons/hi'
 
 const Header = () => {
     const [greeting, setGreeting] = useState('Bom dia!')
     const [greetingIcon, setGreetingIcon] = useState(<BsSun size={20} className="sun-icon" />)
+    const [userName, setUserName] = useState('Usuário')
+    const [userPhoto, setUserPhoto] = useState(FotoPessoal)
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        userService.logoutUser()
+        navigate('/login')
+    }
 
     const getGreetingByTime = () => {
         const now = new Date()
@@ -42,6 +52,16 @@ const Header = () => {
             const greetingData = getGreetingByTime()
             setGreeting(greetingData.message)
             setGreetingIcon(greetingData.icon)
+        }
+
+        // Obter nome do usuário conectado
+        const currentUser = userService.getCurrentUser()
+        if (currentUser) {
+            setUserName(currentUser.nome)
+            // Usar foto do usuário se disponível
+            if (currentUser.foto) {
+                setUserPhoto(currentUser.foto)
+            }
         }
 
         updateGreeting()
@@ -75,15 +95,24 @@ const Header = () => {
             </div>
             <div className="user-container">
                 <div className="photo-container">
-                    <img src={FotoPessoal} alt="Foto de Perfil" className="photo-img" />
+                    <img src={userPhoto} alt="Foto de Perfil" className="photo-img" />
                 </div>
                 <div className="info-profile-container">
                     <div className="greeting-container">
                         {greetingIcon}
                         <p className="greeting-text">{greeting}</p>
                     </div>
-                    <p className="user-name-container">Luiz Eduardo</p>
+                    <p className="user-name-container">{userName}</p>
                 </div>
+                <div className="logout-container">
+                    <BiLogOut 
+                        size={20} 
+                        className="logout-icon" 
+                        onClick={handleLogout}
+                        title="Sair"
+                    />
+                </div>
+
             </div>
         </div>
     )

@@ -1,16 +1,21 @@
-import { useState } from 'react'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import './App.css'
-import Header from './components/Header'
-import MainHome from './components/MainHome'
+import Login from './pages/Auth/Login'
+import Cadastro from './pages/Auth/Cadastro'
+import Home from './pages/Home/Home'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <div className="app-container">
-      <Header />
-      <MainHome />
-    </div>
+    <Router>
+      <div className="app-container">
+        <Routes>
+          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/cadastro" element={<Cadastro />} />
+          <Route path="/home" element={<Home />} />
+        </Routes>
+      </div>
+    </Router>
   )
 }
 
