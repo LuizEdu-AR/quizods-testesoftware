@@ -1,0 +1,314 @@
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-primary);
+    padding: 20px;
+    gap: 100px;
+}
+
+.auth-logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.auth-logo-img {
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+}
+
+.auth-card {
+    background-color: var(--bg-search);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+
+.auth-h2 {
+    padding-top: 15px;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+    font-size: 1.8rem;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.form-group input {
+    padding: 0.75rem;
+    border: 2px solid #e1e5e9;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.auth-button {
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    margin-top: 1rem;
+}
+
+.auth-button:hover {
+    transform: translateY(-2px);
+}
+
+.auth-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: #666;
+}
+
+.auth-link a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.auth-link a:hover {
+    text-decoration: underline;
+}
+
+/* Mensagens de erro e sucesso */
+.error-message {
+    background-color: #fee;
+    color: #d32f2f;
+    padding: 0.75rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    border-left: 4px solid #d32f2f;
+    font-size: 0.9rem;
+}
+
+.success-message {
+    background-color: #e8f5e8;
+    color: #2e7d32;
+    padding: 0.75rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    border-left: 4px solid #2e7d32;
+    font-size: 0.9rem;
+}
+
+/* Estados disabled para inputs e botões */
+.auth-form input:disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.auth-button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.auth-button:disabled:hover {
+    transform: none;
+}
+
+/* Estilos para upload de foto */
+.foto-upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.foto-preview {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--color-primary);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.foto-preview-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.remove-foto-btn {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+.remove-foto-btn:hover {
+    background: #c0392b;
+}
+
+.foto-input {
+    display: none;
+}
+
+.foto-label {
+    background: var(--color-primary);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: 400;
+    font-size: 0.85rem;
+    text-align: center;
+    display: inline-block;
+}
+
+.foto-label:hover {
+    background: var(--color-primary-dark, #5a67d8);
+}
+
+.foto-help {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
+/* Estilos para requisitos de senha */
+.senha-requisitos {
+    margin-top: 0.75rem;
+    padding: 0.75rem;
+    background-color: rgba(102, 126, 234, 0.05);
+    border-radius: 5px;
+    border-left: 3px solid var(--color-primary);
+}
+
+.requisitos-titulo {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.requisito {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+    font-size: 0.8rem;
+    transition: all 0.2s ease;
+}
+
+.requisito-icon {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+
+.requisito.atendido .requisito-icon {
+    background-color: #10b981;
+    color: white;
+}
+
+.requisito.pendente .requisito-icon {
+    background-color: #ef4444;
+    color: white;
+}
+
+.requisito.atendido .requisito-texto {
+    color: #10b981;
+    text-decoration: line-through;
+}
+
+.requisito.pendente .requisito-texto {
+    color: var(--text-secondary);
+}
+
+.senha-erro {
+    color: #ef4444;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+/* Estilos para validação de email */
+.input-error {
+    border-color: #ef4444 !important;
+    background-color: rgba(239, 68, 68, 0.05) !important;
+}
+
+.email-help {
+    margin-top: 0.5rem;
+}
+
+.email-erro {
+    color: #ef4444;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.dominios-permitidos {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    background-color: rgba(16, 185, 129, 0.05);
+    border-radius: 4px;
+    border-left: 3px solid #10b981;
+}
+
+.dominios-help {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    line-height: 1.4;
+}
+
+.dominios-help strong {
+    color: var(--text-primary);
+}
