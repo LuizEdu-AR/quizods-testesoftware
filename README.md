@@ -1,12 +1,73 @@
-# React + Vite
+# QuizODS - Teste de Software
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Um aplicativo de quiz interativo desenvolvido com React e Vite, focado nos Objetivos de Desenvolvimento Sustentável (ODS) da ONU.
 
-Currently, two official plugins are available:
+## 🚀 Tecnologias
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React** - Biblioteca para construção de interfaces
+- **Vite** - Ferramenta de build rápida e moderna
+- **JavaScript/TypeScript** - Linguagem de programação
+- **CSS Modules** - Estilização modular
 
-## Expanding the ESLint configuration
+## 📋 Funcionalidades
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- ✅ Quiz interativo sobre ODS
+- ✅ Sistema de pontuação
+- ✅ Interface responsiva
+- ✅ Feedback instantâneo
+- ✅ Resultados detalhados
+
+## 🛠️ Instalação
+
+1. Clone o repositório:
+```bash
+git clone https://github.com/seu-usuario/quizods-testesoftware.git
+```
+
+2. Navegue até o diretório:
+```bash
+cd quizods-testesoftware
+```
+
+3. Instale as dependências:
+```bash
+npm install
+```
+
+4. Execute o projeto:
+```bash
+npm run dev
+```
+
+## 📖 Como usar
+
+1. Acesse `http://localhost:5173` no seu navegador
+2. Inicie o quiz clicando no botão "Começar"
+3. Responda às perguntas sobre os ODS
+4. Visualize seu resultado final
+
+## 🧪 Testes
+
+Para executar os testes:
+```bash
+npm run test
+```
+
+## 📦 Build
+
+Para gerar a versão de produção:
+```bash
+npm run build
+```
+
+## 🤝 Contribuição
+
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`)
+3. Commit suas mudanças (`git commit -am 'Adiciona nova feature'`)
+4. Push para a branch (`git push origin feature/nova-feature`)
+5. Abra um Pull Request
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
