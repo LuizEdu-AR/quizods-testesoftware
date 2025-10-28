@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import './Auth.css'
 import userService from '../../services/userService'
 import { criarDadosExemplo } from '../../utils/dadosExemplo'
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 
 import LogoODSAuth from '../../assets/img/logoodsauth.png'
 
@@ -13,6 +14,7 @@ function Login() {
     })
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
+    const [showPassword, setShowPassword] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -51,6 +53,10 @@ function Login() {
         }
     }
 
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword)
+    }
+
     return (
         <div className="auth-container">
             <div className="auth-logo-container">
@@ -75,15 +81,30 @@ function Login() {
 
                     <div className="form-group">
                         <label htmlFor="password">Senha:</label>
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            required
-                            disabled={loading}
-                        />
+                        <div className="password-input-container">
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                id="password"
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                required
+                                disabled={loading}
+                                className="password-input"
+                            />
+                            <button
+                                type="button"
+                                className="password-toggle-btn"
+                                onClick={togglePasswordVisibility}
+                                disabled={loading}
+                            >
+                                {showPassword ? (
+                                    <AiOutlineEyeInvisible size={20} />
+                                ) : (
+                                    <AiOutlineEye size={20} />
+                                )}
+                            </button>
+                        </div>
                     </div>
 
                     <button type="submit" className="auth-button" disabled={loading}>

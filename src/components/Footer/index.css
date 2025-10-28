@@ -1,0 +1,13 @@
+.footer-container {
+  background-color: var(--bg-secondary);
+  padding: 20px 0;
+  text-align: center;
+  margin-top: auto;
+}
+
+.copyright-text {
+  margin: 0;
+  color: #6c757d;
+  font-size: 14px;
+  font-weight: 600;
+}

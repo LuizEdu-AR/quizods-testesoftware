@@ -1,5 +1,6 @@
 import LogoODS from '../../assets/img/logo-ods.png'
 import FotoPessoal from '../../assets/img/foto-pessoal.jpg'
+import DefaultProfile from '../../assets/img/defaultprofile.webp'
 import userService from '../../services/userService'
 
 import './index.css'
@@ -8,7 +9,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { HiOutlineViewGrid } from 'react-icons/hi'
-import { BiSearch, BiLogOut } from 'react-icons/bi'
+import { BiSearch, BiLogOut, BiUser } from 'react-icons/bi'
 import { BsSun, BsMoon } from 'react-icons/bs'
 import { HiSun } from 'react-icons/hi'
 
@@ -17,11 +18,20 @@ const Header = () => {
     const [greetingIcon, setGreetingIcon] = useState(<BsSun size={20} className="sun-icon" />)
     const [userName, setUserName] = useState('Usuário')
     const [userPhoto, setUserPhoto] = useState(FotoPessoal)
+    const [isDarkMode, setIsDarkMode] = useState(true) // Start with dark mode as default
     const navigate = useNavigate()
 
     const handleLogout = () => {
         userService.logoutUser()
-        navigate('/login')
+        navigate('/')
+    }
+
+    const handleProfile = () => {
+        navigate('/perfil')
+    }
+
+    const handleLogoClick = () => {
+        navigate('/home')
     }
 
     const getGreetingByTime = () => {
@@ -47,6 +57,38 @@ const Header = () => {
         }
     }
 
+    const toggleTheme = () => {
+        const newTheme = !isDarkMode
+        setIsDarkMode(newTheme)
+
+        // Apply theme to document root
+        if (newTheme) {
+            document.documentElement.setAttribute('data-theme', 'dark')
+        } else {
+            document.documentElement.setAttribute('data-theme', 'light')
+        }
+
+        // Save theme preference
+        localStorage.setItem('theme', newTheme ? 'dark' : 'light')
+    }
+
+    const capitalizeFirstLetter = (str) => {
+        if (!str) return str
+        return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
+    }
+
+    const refreshUserData = () => {
+        const currentUser = userService.getCurrentUser()
+        if (currentUser) {
+            setUserName(capitalizeFirstLetter(currentUser.nome))
+            if (currentUser.foto) {
+                setUserPhoto(currentUser.foto)
+            } else {
+                setUserPhoto(DefaultProfile)
+            }
+        }
+    }
+
     useEffect(() => {
         const updateGreeting = () => {
             const greetingData = getGreetingByTime()
@@ -57,43 +99,45 @@ const Header = () => {
         // Obter nome do usuário conectado
         const currentUser = userService.getCurrentUser()
         if (currentUser) {
-            setUserName(currentUser.nome)
-            // Usar foto do usuário se disponível
+            setUserName(capitalizeFirstLetter(currentUser.nome))
+            // Usar foto do usuário se disponível, senão usar default
             if (currentUser.foto) {
                 setUserPhoto(currentUser.foto)
+            } else {
+                setUserPhoto(DefaultProfile)
             }
+        }
+
+        // Load saved theme or default to dark
+        const savedTheme = localStorage.getItem('theme')
+        if (savedTheme === 'light') {
+            setIsDarkMode(false)
+            document.documentElement.setAttribute('data-theme', 'light')
+        } else {
+            setIsDarkMode(true)
+            document.documentElement.setAttribute('data-theme', 'dark')
         }
 
         updateGreeting()
 
         const interval = setInterval(updateGreeting, 60000)
 
-        return () => clearInterval(interval)
+        // Add event listener for user data updates
+        const handleUserUpdate = () => {
+            refreshUserData()
+        }
+
+        window.addEventListener('userDataUpdated', handleUserUpdate)
+
+        return () => {
+            clearInterval(interval)
+            window.removeEventListener('userDataUpdated', handleUserUpdate)
+        }
     }, [])
 
     return (
         <div className='header-container'>
-            <div className="logo-container">
-                <img src={LogoODS} alt="Logo ODS" className="logo-img" />
-                <h1 className="logo-text">Quiz ODS</h1>
-            </div>
-            <div className="search-container">
-                <div className="explore-container">
-                    <HiOutlineViewGrid size={20} className="grid-icon" />
-                    <p className="explore-text">Explorar</p>
-                </div>
-                <div className="search-bar-container">
-                    <div className="search-input-wrapper">
-                        <BiSearch size={18} className="search-icon" />
-                        <input
-                            type="text"
-                            placeholder="Buscar quiz..."
-                            className="search-input"
-                        />
-                    </div>
-                </div>
-            </div>
-            <div className="user-container">
+            <div className="user-info-container">
                 <div className="photo-container">
                     <img src={userPhoto} alt="Foto de Perfil" className="photo-img" />
                 </div>
@@ -104,10 +148,38 @@ const Header = () => {
                     </div>
                     <p className="user-name-container">{userName}</p>
                 </div>
+                <div className="totalscore-container"></div>
+            </div>
+            <div className="logo-container" onClick={handleLogoClick}>
+                <img src={LogoODS} alt="Logo ODS" className="logo-img" />
+                <h1 className="logo-text">Quiz ODS</h1>
+            </div>
+            <div className="user-container">
                 <div className="logout-container">
-                    <BiLogOut 
-                        size={20} 
-                        className="logout-icon" 
+                    <BiUser
+                        size={20}
+                        className="logout-icon"
+                        onClick={handleProfile}
+                        title="Perfil"
+                    />
+                </div>
+                <div className="theme-toggle-container">
+                    <button
+                        onClick={toggleTheme}
+                        className="theme-toggle-btn"
+                        title={isDarkMode ? 'Mudar para modo claro' : 'Mudar para modo escuro'}
+                    >
+                        {isDarkMode ? (
+                            <BsSun size={18} className="theme-icon" />
+                        ) : (
+                            <BsMoon size={18} className="theme-icon" />
+                        )}
+                    </button>
+                </div>
+                <div className="logout-container">
+                    <BiLogOut
+                        size={20}
+                        className="logout-icon"
                         onClick={handleLogout}
                         title="Sair"
                     />

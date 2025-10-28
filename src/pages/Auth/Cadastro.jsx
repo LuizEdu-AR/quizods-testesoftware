@@ -2,8 +2,10 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import './Auth.css'
 import userService from '../../services/userService'
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 
 import LogoODSAuth from '../../assets/img/logoodsauth.png'
+import DefaultProfile from '../../assets/img/defaultprofile.webp'
 
 function Cadastro() {
     const [formData, setFormData] = useState({
@@ -19,14 +21,27 @@ function Cadastro() {
     const [loading, setLoading] = useState(false)
     const [senhaStatus, setSenhaStatus] = useState({ requisitos: [], isValid: false })
     const [emailValido, setEmailValido] = useState(true)
+    const [emailJaExiste, setEmailJaExiste] = useState(false)
+    const [showPassword, setShowPassword] = useState(false)
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
     const navigate = useNavigate()
 
     const handleChange = (e) => {
         const { name, value } = e.target
-        setFormData({
-            ...formData,
-            [name]: value
-        })
+        
+        // Filtrar apenas letras e espaços para o campo nome
+        if (name === 'nome') {
+            const filteredValue = value.replace(/[^a-zA-ZÀ-ÿ\s]/g, '')
+            setFormData({
+                ...formData,
+                [name]: filteredValue
+            })
+        } else {
+            setFormData({
+                ...formData,
+                [name]: value
+            })
+        }
         
         // Validar senha em tempo real
         if (name === 'password') {
@@ -41,6 +56,14 @@ function Cadastro() {
         if (name === 'email') {
             const emailValidacao = validarEmail(value)
             setEmailValido(emailValidacao.isValid)
+            
+            // Verificar se email já existe
+            if (value && emailValidacao.isValid) {
+                const emailExiste = userService.emailExists(value)
+                setEmailJaExiste(emailExiste)
+            } else {
+                setEmailJaExiste(false)
+            }
         }
         
         // Limpar mensagens quando usuário começar a digitar
@@ -188,6 +211,13 @@ function Cadastro() {
             return
         }
 
+        // Verificar se email já existe
+        if (userService.emailExists(formData.email)) {
+            setError('Este email já está em uso. Tente outro email ou faça login.')
+            setLoading(false)
+            return
+        }
+
         // Validar senha
         const senhaValidacao = validarSenha(formData.password)
         if (!senhaValidacao.isValid) {
@@ -207,7 +237,7 @@ function Cadastro() {
                 nome: formData.nome,
                 email: formData.email,
                 password: formData.password,
-                foto: formData.foto
+                foto: formData.foto || DefaultProfile // Use default profile if no photo is uploaded
             })
 
             if (result.success) {
@@ -216,7 +246,7 @@ function Cadastro() {
 
                 // Aguardar um pouco antes de redirecionar
                 setTimeout(() => {
-                    navigate('/login')
+                    navigate('/')
                 }, 2000)
             } else {
                 setError(result.message)
@@ -227,6 +257,14 @@ function Cadastro() {
         } finally {
             setLoading(false)
         }
+    }
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword)
+    }
+
+    const toggleConfirmPasswordVisibility = () => {
+        setShowConfirmPassword(!showConfirmPassword)
     }
 
     return (
@@ -249,7 +287,13 @@ function Cadastro() {
                             onChange={handleChange}
                             required
                             disabled={loading}
+                            maxLength="16"
                         />
+                        {formData.nome && formData.nome.length >= 16 && (
+                            <small className="nome-help">
+                                Máximo de 16 caracteres ({formData.nome.length}/16)
+                            </small>
+                        )}
                     </div>
 
                     <div className="form-group">
@@ -277,7 +321,7 @@ function Cadastro() {
                                 disabled={loading}
                                 className="foto-input"
                             />
-                            <label htmlFor="foto" className="foto-label">
+                            <label htmlFor="foto" className="foto-label" style={{color:"#FFF"}}>
                                 {fotoPreview ? 'Trocar foto' : 'Escolher foto'}
                             </label>
                         </div>
@@ -296,12 +340,29 @@ function Cadastro() {
                             onChange={handleChange}
                             required
                             disabled={loading}
-                            className={formData.email && !emailValido ? 'input-error' : ''}
+                            className={
+                                formData.email && (!emailValido || emailJaExiste) 
+                                    ? 'input-error' 
+                                    : ''
+                            }
                         />
                         {formData.email && !emailValido && (
                             <div className="email-help">
                                 <small className="email-erro">
                                     ❌ Email deve terminar com um dos domínios permitidos
+                                </small>
+                            </div>
+                        )}
+                        {formData.email && emailValido && emailJaExiste && (
+                            <div className="email-help">
+                                <small className="email-erro">
+                                    ❌ Este email já está em uso
+                                </small>
+                            </div>
+                        )}
+                        {formData.email && emailValido && !emailJaExiste && (
+                            <div className="email-help">
+                                <small className="email-sucesso">
                                 </small>
                             </div>
                         )}
@@ -314,17 +375,32 @@ function Cadastro() {
 
                     <div className="form-group">
                         <label htmlFor="password">Senha:</label>
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            required
-                            disabled={loading}
-                            minLength="8"
-                            maxLength="16"
-                        />
+                        <div className="password-input-container">
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                id="password"
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                required
+                                disabled={loading}
+                                minLength="8"
+                                maxLength="16"
+                                className="password-input"
+                            />
+                            <button
+                                type="button"
+                                className="password-toggle-btn"
+                                onClick={togglePasswordVisibility}
+                                disabled={loading}
+                            >
+                                {showPassword ? (
+                                    <AiOutlineEyeInvisible size={20} />
+                                ) : (
+                                    <AiOutlineEye size={20} />
+                                )}
+                            </button>
+                        </div>
                         {formData.password && (
                             <div className="senha-requisitos">
                                 <p className="requisitos-titulo">Requisitos da senha:</p>
@@ -342,29 +418,44 @@ function Cadastro() {
 
                     <div className="form-group">
                         <label htmlFor="confirmPassword">Confirmar Senha:</label>
-                        <input
-                            type="password"
-                            id="confirmPassword"
-                            name="confirmPassword"
-                            value={formData.confirmPassword}
-                            onChange={handleChange}
-                            required
-                            disabled={loading}
-                            minLength="8"
-                            maxLength="16"
-                        />
+                        <div className="password-input-container">
+                            <input
+                                type={showConfirmPassword ? "text" : "password"}
+                                id="confirmPassword"
+                                name="confirmPassword"
+                                value={formData.confirmPassword}
+                                onChange={handleChange}
+                                required
+                                disabled={loading}
+                                minLength="8"
+                                maxLength="16"
+                                className="password-input"
+                            />
+                            <button
+                                type="button"
+                                className="password-toggle-btn"
+                                onClick={toggleConfirmPasswordVisibility}
+                                disabled={loading}
+                            >
+                                {showConfirmPassword ? (
+                                    <AiOutlineEyeInvisible size={20} />
+                                ) : (
+                                    <AiOutlineEye size={20} />
+                                )}
+                            </button>
+                        </div>
                         {formData.confirmPassword && formData.password !== formData.confirmPassword && (
                             <small className="senha-erro">As senhas não coincidem</small>
                         )}
                     </div>
 
-                    <button type="submit" className="auth-button" disabled={loading}>
+                    <button type="submit" className="auth-button" disabled={loading || emailJaExiste || !emailValido}>
                         {loading ? 'Cadastrando...' : 'Cadastrar'}
                     </button>
                 </form>
 
                 <p className="auth-link">
-                    Já tem uma conta? <Link to="/login">Faça login</Link>
+                    Já tem uma conta? <Link to="/">Faça login</Link>
                 </p>
             </div>
         </div>

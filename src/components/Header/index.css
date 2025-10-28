@@ -5,12 +5,19 @@
     justify-content: space-between;
     padding: 15px 84px;
     background-color: var(--bg-secondary);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .logo-container {
     display: flex;
     align-items: center;
     gap: 10px;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.logo-container:hover {
+    opacity: 0.8;
 }
 
 .logo-img {
@@ -24,107 +31,71 @@
     font-weight: bold;
     color: var(--text-primary);
     margin: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.search-container {
-    display: flex;
-    align-items: center;
-    gap: 50px;
-    flex: 1;
-    justify-content: center;
+.logo-text:hover {
+    background: linear-gradient(45deg,
+            #ff0000, #ff7f00, #ffff00, #00ff00,
+            #0000ff, #4b0082, #9400d3, #ff0000);
+    background-size: 200% 200%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow-wave 5s ease-in-out infinite;
 }
 
-.explore-container {
+@keyframes rainbow-wave {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    25% {
+        background-position: 100% 50%;
+    }
+
+    50% {
+        background-position: 200% 50%;
+    }
+
+    75% {
+        background-position: 300% 50%;
+    }
+}
+
+/* Fallback for browsers that don't support background-clip: text */
+@supports not (-webkit-background-clip: text) {
+    .logo-text:hover {
+        background: none;
+        color: #4CAF50;
+        text-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+    }
+}
+
+.user-info-container {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 8px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
 }
 
-.explore-container:hover {
-    background-color: #333;
-}
-
-.explore-text {
-    font-size: 16px;
-    color: var(--text-primary);
-    margin: 0;
-}
-
-.grid-icon {
-    color: var(--text-primary);
-}
-
-/* Estilos do Input de Pesquisa */
-.search-bar-container {
-    flex: 1;
-    max-width: 250px;
-}
-
-.search-input-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-    background-color: var(--bg-search);
-    border-radius: 8px;
-    padding: 0 12px;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.search-input-wrapper:focus-within {
-    border-color: var(--color-primary);
-    box-shadow: 0 0 5px var(--color-primary);
-}
-
-.search-icon {
-    color: #888;
-    margin-right: 8px;
-    transition: color 0.3s ease;
-}
-
-.search-input-wrapper:focus-within .search-icon {
-    color: var(--color-primary);
-}
-
-.search-input {
-    width: 100%;
-    padding: 10px 0;
-    background: transparent;
-    border: none;
-    outline: none;
-    color: var(--text-primary);
-    font-size: 14px;
-    font-family: 'Roboto', sans-serif;
-}
-
-.search-input::placeholder {
-    color: #888;
-}
-
-.user-container {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.photo-img{
+.photo-img {
     width: 45px;
     height: 45px;
     border-radius: 50%;
     object-fit: cover;
 }
 
-.user-container{
+.user-container {
     display: flex;
     align-items: center;
     gap: 10px;
     height: 45px;
 }
 
-.info-profile-container{
+.info-profile-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -132,7 +103,7 @@
     gap: 6px;
 }
 
-.greeting-container{
+.greeting-container {
     display: flex;
     align-items: center;
     gap: 5px;
@@ -140,11 +111,13 @@
 }
 
 .sun-icon {
-    color: var(--color-primary); /* Mesma cor roxa da saudação */
+    color: var(--color-primary);
+    /* Mesma cor roxa da saudação */
 }
 
 .moon-icon {
-    color: var(--color-primary); /* Mesma cor roxa da saudação */
+    color: var(--color-primary);
+    /* Mesma cor roxa da saudação */
 }
 
 .greeting-text {
@@ -162,18 +135,28 @@
 
 /* Estilos para o logout */
 .logout-container {
+    background: var(--bg-secondary);
+    border: 2px solid var(--text-secondary);
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: 15px;
-    padding: 15px;
-    transition: background-color 0.2s ease;
-    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-secondary);
 }
 
 .logout-container:hover {
-    background-color: rgba(102, 126, 234, 0.1);
-    border-radius: 50%;
+    border: 2px solid var(--color-primary);
+    color: var(--color-primary);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(106, 91, 226, 0.3);
+}
+
+.logout-container:hover .logout-icon {
+    transform: rotate(360deg);
 }
 
 .logout-icon {
@@ -188,5 +171,65 @@
 
 .logout-icon:hover {
     color: var(--color-primary);
+    transition: transform 0.3s ease;
+}
+
+/* Estilos para o profile */
+.profile-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 15px;
+    padding: 15px;
+    transition: background-color 0.2s ease;
+    border-radius: 50%;
+}
+
+.profile-container:hover {
+    background-color: rgba(102, 126, 234, 0.1);
+    border-radius: 50%;
+}
+
+.profile-icon {
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-icon:hover {
+    color: var(--color-primary);
     transform: scale(1.1);
+}
+
+.theme-toggle-btn {
+    background: var(--bg-secondary);
+    border: 2px solid var(--text-secondary);
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-secondary);
+}
+
+.theme-toggle-btn:hover {
+    border: 2px solid var(--color-primary);
+    color: var(--color-primary);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(106, 91, 226, 0.3);
+}
+
+.theme-icon {
+    transition: transform 0.3s ease;
+}
+
+.theme-toggle-btn:hover .theme-icon {
+    transform: rotate(180deg);
 }

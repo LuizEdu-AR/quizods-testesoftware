@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Header from '../../components/Header'
 import MainHome from '../../components/MainHome'
+import Footer from '../../components/Footer'
 import userService from '../../services/userService'
 import { criarDadosExemplo, mostrarEstatisticas } from '../../utils/dadosExemplo'
 import './Home.css'
@@ -42,6 +43,7 @@ function Home() {
     <div className="home-container">
       <Header />
       <MainHome />
+      <Footer />
     </div>
   )
 }
