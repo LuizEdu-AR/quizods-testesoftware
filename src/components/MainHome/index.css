@@ -284,7 +284,7 @@
     display: flex;
     gap: 8px;
     margin-bottom: 20px;
-    padding: 8px 8px;
+    padding: 8px;
     flex-wrap: nowrap;
     overflow-x: auto;
     scrollbar-width: none;
@@ -390,6 +390,7 @@
     }
     
     .filter-buttons-container {
+        padding: 8px;
         justify-content: center;
         flex-wrap: wrap;
     }
@@ -476,7 +477,7 @@
     
     .filter-buttons-container {
         gap: 6px;
-        padding: 0;
+        padding: 8px;
         justify-content: flex-start;
     }
     
