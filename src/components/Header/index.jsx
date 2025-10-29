@@ -17,7 +17,7 @@ const Header = () => {
     const [greeting, setGreeting] = useState('Bom dia!')
     const [greetingIcon, setGreetingIcon] = useState(<BsSun size={20} className="sun-icon" />)
     const [userName, setUserName] = useState('Usuário')
-    const [userPhoto, setUserPhoto] = useState(FotoPessoal)
+    const [userPhoto, setUserPhoto] = useState(DefaultProfile)
     const [isDarkMode, setIsDarkMode] = useState(true) // Start with dark mode as default
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const navigate = useNavigate()
