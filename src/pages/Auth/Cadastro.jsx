@@ -103,195 +103,194 @@ function Cadastro() {
     }
 
     const validarSenha = (senha) => {
-        const validarSenha = (senha) => {
-            const errors = []
+        const errors = []
 
-            // Verificar comprimento
-            if (senha.length < 8) {
-                errors.push('ao menos 8 caracteres')
-            }
-            if (senha.length > 16) {
-                errors.push('no máximo 16 caracteres')
-            }
-
-            // Verificar letra maiúscula
-            if (!/[A-Z]/.test(senha)) {
-                errors.push('1 letra maiúscula')
-            }
-
-            // Verificar letra minúscula
-            if (!/[a-z]/.test(senha)) {
-                errors.push('1 letra minúscula')
-            }
-
-            // Verificar número
-            if (!/[0-9]/.test(senha)) {
-                errors.push('1 número')
-            }
-
-            // Verificar caractere especial
-            if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(senha)) {
-                errors.push('1 caractere especial (!@#$%^&*)')
-            }
-
-            return {
-                isValid: errors.length === 0,
-                errors: errors
-            }
+        // Verificar comprimento
+        if (senha.length < 8) {
+            errors.push('ao menos 8 caracteres')
+        }
+        if (senha.length > 16) {
+            errors.push('no máximo 16 caracteres')
         }
 
-        // Função para mostrar requisitos da senha com status
-        const getRequisitosSenha = (senha) => {
-            return [
-                {
-                    texto: '8-16 caracteres',
-                    atendido: senha.length >= 8 && senha.length <= 16
-                },
-                {
-                    texto: '1 letra maiúscula (A-Z)',
-                    atendido: /[A-Z]/.test(senha)
-                },
-                {
-                    texto: '1 letra minúscula (a-z)',
-                    atendido: /[a-z]/.test(senha)
-                },
-                {
-                    texto: '1 número (0-9)',
-                    atendido: /[0-9]/.test(senha)
-                },
-                {
-                    texto: '1 caractere especial (!@#$%^&*)',
-                    atendido: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(senha)
-                }
-            ]
+        // Verificar letra maiúscula
+        if (!/[A-Z]/.test(senha)) {
+            errors.push('1 letra maiúscula')
         }
 
-        // Função para validar domínios de email
-        const validarEmail = (email) => {
-            const dominiosPermitidos = [
-                '@gmail.com',
-                '@outlook.com',
-                '@hotmail.com',
-                '@alunos.ufersa.edu.br',
-                '@ufersa.edu.br'
-            ]
+        // Verificar letra minúscula
+        if (!/[a-z]/.test(senha)) {
+            errors.push('1 letra minúscula')
+        }
 
-            const emailValido = dominiosPermitidos.some(dominio =>
-                email.toLowerCase().endsWith(dominio.toLowerCase())
-            )
+        // Verificar número
+        if (!/[0-9]/.test(senha)) {
+            errors.push('1 número')
+        }
 
-            return {
-                isValid: emailValido,
-                dominiosPermitidos: dominiosPermitidos
+        // Verificar caractere especial
+        if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(senha)) {
+            errors.push('1 caractere especial (!@#$%^&*)')
+        }
+
+        return {
+            isValid: errors.length === 0,
+            errors: errors
+        }
+    }
+
+    // Função para mostrar requisitos da senha com status
+    const getRequisitosSenha = (senha) => {
+        return [
+            {
+                texto: '8-16 caracteres',
+                atendido: senha.length >= 8 && senha.length <= 16
+            },
+            {
+                texto: '1 letra maiúscula (A-Z)',
+                atendido: /[A-Z]/.test(senha)
+            },
+            {
+                texto: '1 letra minúscula (a-z)',
+                atendido: /[a-z]/.test(senha)
+            },
+            {
+                texto: '1 número (0-9)',
+                atendido: /[0-9]/.test(senha)
+            },
+            {
+                texto: '1 caractere especial (!@#$%^&*)',
+                atendido: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(senha)
             }
+        ]
+    }
+
+    // Função para validar domínios de email
+    const validarEmail = (email) => {
+        const dominiosPermitidos = [
+            '@gmail.com',
+            '@outlook.com',
+            '@hotmail.com',
+            '@alunos.ufersa.edu.br',
+            '@ufersa.edu.br'
+        ]
+
+        const emailValido = dominiosPermitidos.some(dominio =>
+            email.toLowerCase().endsWith(dominio.toLowerCase())
+        )
+
+        return {
+            isValid: emailValido,
+            dominiosPermitidos: dominiosPermitidos
         }
+    }
 
-        const handleSubmit = async (e) => {
-            e.preventDefault()
-            setLoading(true)
-            setError('')
-            setSuccess('')
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        setLoading(true)
+        setError('')
+        setSuccess('')
 
-            try {
-                // Validar email
-                const emailValidacao = validarEmail(formData.email)
-                if (!emailValidacao.isValid) {
-                    setError(`Email deve ser de um dos domínios permitidos: ${emailValidacao.dominiosPermitidos.join(', ')}`)
-                    setLoading(false)
-                    return
-                }
-
-                // Validar senha
-                const senhaValidacao = validarSenha(formData.password)
-                if (!senhaValidacao.isValid) {
-                    setError(`A senha deve conter: ${senhaValidacao.errors.join(', ')}.`)
-                    setLoading(false)
-                    return
-                }
-
-                if (formData.password !== formData.confirmPassword) {
-                    setError('As senhas não coincidem!')
-                    setLoading(false)
-                    return
-                }
-
-                console.log('🔥 Iniciando cadastro...', {
-                    nome: formData.nome,
-                    email: formData.email,
-                    senha_length: formData.password.length,
-                    useFirebase: USE_FIREBASE
-                })
-
-                // Usar o serviço unificado (Firebase ou localStorage)
-                const result = await UserService.registerUser({
-                    nome: formData.nome,
-                    email: formData.email,
-                    password: formData.password,
-                    foto: formData.foto || DefaultProfile
-                })
-
-                console.log('🔥 Resultado do cadastro:', result)
-
-                if (result.success) {
-                    setSuccess(result.message)
-                    console.log('✅ Usuário cadastrado:', result.user)
-
-                    // Aguardar um pouco antes de redirecionar
-                    setTimeout(() => {
-                        navigate('/')
-                    }, 2000)
-                } else {
-                    console.log('❌ Erro no cadastro:', result.message)
-                    setError(result.message)
-                }
-            } catch (error) {
-                console.error('❌ Erro no cadastro (catch):', error)
-                // Tratamento de erro mais específico
-                if (error.code) {
-                    // Erro do Firebase
-                    switch (error.code) {
-                        case 'auth/email-already-in-use':
-                            setError('Este email já está sendo usado por outra conta!')
-                            break
-                        case 'auth/weak-password':
-                            setError('A senha é muito fraca. Use pelo menos 6 caracteres!')
-                            break
-                        case 'auth/invalid-email':
-                            setError('Formato de email inválido!')
-                            break
-                        case 'auth/network-request-failed':
-                            setError('Erro de conectividade. Verifique sua conexão com a internet.')
-                            break
-                        default:
-                            setError(`Erro do Firebase: ${error.message}`)
-                    }
-                } else {
-                    setError(`Erro interno: ${error.message}`)
-                }
-            } finally {
-                console.log('🏁 Finalizando cadastro, setLoading(false)')
+        try {
+            // Validar email
+            const emailValidacao = validarEmail(formData.email)
+            if (!emailValidacao.isValid) {
+                setError(`Email deve ser de um dos domínios permitidos: ${emailValidacao.dominiosPermitidos.join(', ')}`)
                 setLoading(false)
+                return
             }
-        }
 
-        const togglePasswordVisibility = () => {
-            setShowPassword(!showPassword)
-        }
+            // Validar senha
+            const senhaValidacao = validarSenha(formData.password)
+            if (!senhaValidacao.isValid) {
+                setError(`A senha deve conter: ${senhaValidacao.errors.join(', ')}.`)
+                setLoading(false)
+                return
+            }
 
-        const toggleConfirmPasswordVisibility = () => {
-            setShowConfirmPassword(!showConfirmPassword)
-        }
+            if (formData.password !== formData.confirmPassword) {
+                setError('As senhas não coincidem!')
+                setLoading(false)
+                return
+            }
 
-        return (
-            <div className="auth-container">
-                <div className="auth-logo-container">
-                    <img src={LogoODSAuth} alt="Logo ODS" className="auth-logo-img" />
-                </div>
-                <div className="auth-card">
-                    <h2>Cadastro</h2>
-                    {error && <div className="error-message">{error}</div>}
-                    {success && <div className="success-message">{success}</div>}
-                    <form onSubmit={handleSubmit} className="auth-form">
+            console.log('🔥 Iniciando cadastro...', {
+                nome: formData.nome,
+                email: formData.email,
+                senha_length: formData.password.length,
+                useFirebase: USE_FIREBASE
+            })
+
+            // Usar o serviço unificado (Firebase ou localStorage)
+            const result = await UserService.registerUser({
+                nome: formData.nome,
+                email: formData.email,
+                password: formData.password,
+                foto: formData.foto || DefaultProfile
+            })
+
+            console.log('🔥 Resultado do cadastro:', result)
+
+            if (result.success) {
+                setSuccess(result.message)
+                console.log('✅ Usuário cadastrado:', result.user)
+
+                // Aguardar um pouco antes de redirecionar
+                setTimeout(() => {
+                    navigate('/')
+                }, 2000)
+            } else {
+                console.log('❌ Erro no cadastro:', result.message)
+                setError(result.message)
+            }
+        } catch (error) {
+            console.error('❌ Erro no cadastro (catch):', error)
+            // Tratamento de erro mais específico
+            if (error.code) {
+                // Erro do Firebase
+                switch (error.code) {
+                    case 'auth/email-already-in-use':
+                        setError('Este email já está sendo usado por outra conta!')
+                        break
+                    case 'auth/weak-password':
+                        setError('A senha é muito fraca. Use pelo menos 6 caracteres!')
+                        break
+                    case 'auth/invalid-email':
+                        setError('Formato de email inválido!')
+                        break
+                    case 'auth/network-request-failed':
+                        setError('Erro de conectividade. Verifique sua conexão com a internet.')
+                        break
+                    default:
+                        setError(`Erro do Firebase: ${error.message}`)
+                }
+            } else {
+                setError(`Erro interno: ${error.message}`)
+            }
+        } finally {
+            console.log('🏁 Finalizando cadastro, setLoading(false)')
+            setLoading(false)
+        }
+    }
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword)
+    }
+
+    const toggleConfirmPasswordVisibility = () => {
+        setShowConfirmPassword(!showConfirmPassword)
+    }
+
+    return (
+        <div className="auth-container">
+            <div className="auth-logo-container">
+                <img src={LogoODSAuth} alt="Logo ODS" className="auth-logo-img" />
+            </div>
+            <div className="auth-card">
+                <h2>Cadastro</h2>
+                {error && <div className="error-message">{error}</div>}
+                {success && <div className="success-message">{success}</div>}
+                <form onSubmit={handleSubmit} className="auth-form">
                         <div className="form-group">
                             <label htmlFor="nome">Nome:</label>
                             <input
@@ -467,7 +466,6 @@ function Cadastro() {
                 </div>
             </div>
         )
-    }
 }
 
 export default Cadastro
