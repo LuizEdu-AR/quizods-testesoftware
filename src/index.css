@@ -1,9 +1,23 @@
 :root {
+  /* Dark theme (default) */
   --bg-primary: #111315;
   --bg-secondary: #1A1C1E;
   --bg-search: #272A30;
+  --bg-tertiary: #FFFFFF;
   --text-primary: #FFFFFF;
-  --color-primary: #6A5BE2;
+  --text-secondary: #949494;
+  --color-primary: rgb(106, 91, 226);
+  --color-secondary: #949494;
+}
+
+[data-theme="light"] {
+  /* Light theme */
+  --bg-primary: #F4f4f4;
+  --bg-secondary: #F8F9FA;
+  --bg-search: rgba(106, 91, 226, 10%);
+  --text-primary: #000;
+  --text-secondary: #666666;
+  --color-primary: rgb(106, 91, 226);
   --color-secondary: #949494;
 }
 
@@ -16,6 +30,13 @@
 }
 
 body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   background-color: var(--bg-primary);
   color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
