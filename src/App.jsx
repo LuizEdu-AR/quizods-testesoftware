@@ -9,7 +9,7 @@ import Profile from './pages/Profile'
 
 function App() {
   return (
-    <Router>
+    <Router basename="/quizods-testesoftware">
       <div className="app-container">
         <Routes>
           <Route path="/" element={<Login />} />
