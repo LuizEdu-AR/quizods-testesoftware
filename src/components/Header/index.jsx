@@ -1,5 +1,4 @@
 import LogoODS from '../../assets/img/logo-ods.png'
-import FotoPessoal from '../../assets/img/foto-pessoal.jpg'
 import DefaultProfile from '../../assets/img/defaultprofile.webp'
 // Usar o serviço unificado que alterna entre localStorage e Firebase
 import { UserService, USE_FIREBASE } from '../../services'
