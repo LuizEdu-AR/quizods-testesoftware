@@ -205,36 +205,34 @@ function Cadastro() {
         setError('')
         setSuccess('')
 
-        // Validar email
-        const emailValidacao = validarEmail(formData.email)
-        if (!emailValidacao.isValid) {
-            setError(`Email deve ser de um dos domínios permitidos: ${emailValidacao.dominiosPermitidos.join(', ')}`)
-            setLoading(false)
-            return
-        }
-
-        // Verificar se email já existe será feito pelo Firebase automaticamente
-        // O Firebase retornará erro 'auth/email-already-in-use' se necessário
-
-        // Validar senha
-        const senhaValidacao = validarSenha(formData.password)
-        if (!senhaValidacao.isValid) {
-            setError(`A senha deve conter: ${senhaValidacao.errors.join(', ')}.`)
-            setLoading(false)
-            return
-        }
-
-        if (formData.password !== formData.confirmPassword) {
-            setError('As senhas não coincidem!')
-            setLoading(false)
-            return
-        }
-
         try {
+            // Validar email
+            const emailValidacao = validarEmail(formData.email)
+            if (!emailValidacao.isValid) {
+                setError(`Email deve ser de um dos domínios permitidos: ${emailValidacao.dominiosPermitidos.join(', ')}`)
+                setLoading(false)
+                return
+            }
+
+            // Validar senha
+            const senhaValidacao = validarSenha(formData.password)
+            if (!senhaValidacao.isValid) {
+                setError(`A senha deve conter: ${senhaValidacao.errors.join(', ')}.`)
+                setLoading(false)
+                return
+            }
+
+            if (formData.password !== formData.confirmPassword) {
+                setError('As senhas não coincidem!')
+                setLoading(false)
+                return
+            }
+
             console.log('🔥 Iniciando cadastro...', {
                 nome: formData.nome,
                 email: formData.email,
-                senha_length: formData.password.length
+                senha_length: formData.password.length,
+                useFirebase: USE_FIREBASE
             })
 
             // Usar o serviço unificado (Firebase ou localStorage)
@@ -242,7 +240,7 @@ function Cadastro() {
                 nome: formData.nome,
                 email: formData.email,
                 password: formData.password,
-                foto: formData.foto || DefaultProfile // Use default profile if no photo is uploaded
+                foto: formData.foto || DefaultProfile
             })
 
             console.log('🔥 Resultado do cadastro:', result)
@@ -261,7 +259,28 @@ function Cadastro() {
             }
         } catch (error) {
             console.error('❌ Erro no cadastro (catch):', error)
-            setError(`Erro interno: ${error.message}`)
+            // Tratamento de erro mais específico
+            if (error.code) {
+                // Erro do Firebase
+                switch (error.code) {
+                    case 'auth/email-already-in-use':
+                        setError('Este email já está sendo usado por outra conta!')
+                        break
+                    case 'auth/weak-password':
+                        setError('A senha é muito fraca. Use pelo menos 6 caracteres!')
+                        break
+                    case 'auth/invalid-email':
+                        setError('Formato de email inválido!')
+                        break
+                    case 'auth/network-request-failed':
+                        setError('Erro de conectividade. Verifique sua conexão com a internet.')
+                        break
+                    default:
+                        setError(`Erro do Firebase: ${error.message}`)
+                }
+            } else {
+                setError(`Erro interno: ${error.message}`)
+            }
         } finally {
             console.log('🏁 Finalizando cadastro, setLoading(false)')
             setLoading(false)

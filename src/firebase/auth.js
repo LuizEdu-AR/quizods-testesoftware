@@ -83,14 +83,37 @@ class FirebaseAuthService {
       }
     } catch (error) {
       console.error('❌ FirebaseAuthService: Erro no registro:', error)
+      console.error('❌ Código do erro:', error.code)
+      console.error('❌ Mensagem do erro:', error.message)
       
       let message = 'Erro interno do servidor.'
-      if (error.code === 'auth/email-already-in-use') {
-        message = 'Este email já está em uso!'
-      } else if (error.code === 'auth/weak-password') {
-        message = 'A senha deve ter pelo menos 6 caracteres!'
-      } else if (error.code === 'auth/invalid-email') {
-        message = 'Email inválido!'
+      
+      // Tratamento mais específico de erros
+      switch (error.code) {
+        case 'auth/email-already-in-use':
+          message = 'Este email já está sendo usado por outra conta!'
+          break
+        case 'auth/weak-password':
+          message = 'A senha deve ter pelo menos 6 caracteres!'
+          break
+        case 'auth/invalid-email':
+          message = 'Formato de email inválido!'
+          break
+        case 'auth/operation-not-allowed':
+          message = 'Cadastro com email/senha não está habilitado!'
+          break
+        case 'auth/network-request-failed':
+          message = 'Erro de conectividade. Verifique sua conexão com a internet.'
+          break
+        case 'permission-denied':
+          message = 'Permissão negada para acessar o banco de dados!'
+          break
+        case 'unavailable':
+          message = 'Serviço temporariamente indisponível. Tente novamente em alguns instantes.'
+          break
+        default:
+          message = `Erro: ${error.message}`
+          console.error('❌ Erro não mapeado:', error.code, error.message)
       }
       
       return { success: false, message }
