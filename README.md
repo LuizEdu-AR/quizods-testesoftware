@@ -152,22 +152,25 @@ yarn preview
 
 ### Deploy no GitHub Pages
 
-O projeto está configurado para deploy automático no GitHub Pages. Para fazer o deploy:
+🚀 **O projeto está totalmente configurado para GitHub Pages!**
 
-1. **Configure o repositório no GitHub**:
-   - Vá para Settings > Pages no seu repositório
-   - Escolha "GitHub Actions" como source
+**Configuração realizada por Luiz Eduardo**, incluindo:
+- Configuração do Vite com base path correto (`/quizods-testesoftware/`)
+- Instalação e configuração do gh-pages
+- Script de deploy automatizado no package.json
+- Deploy inicial já realizado e funcionando
 
-2. **Push para a branch main**:
-   ```bash
-   git add .
-   git commit -m "feat: configura deploy para GitHub Pages"
-   git push origin main
-   ```
+**Site ao vivo**: https://luizedu-ar.github.io/quizods-testesoftware/
 
-3. **Aguarde o deploy**: O GitHub Actions fará o build e deploy automaticamente
+Para fazer atualizações futuras:
+```bash
+npm run deploy
+```
 
-4. **Acesse o site**: Estará disponível em `https://seu-usuario.github.io/quizods-testesoftware/`
+Este comando irá:
+- Criar um novo build otimizado
+- Fazer deploy automático para a branch gh-pages
+- Atualizar o site em produção
 
 ## 🎯 Objetivos de Desenvolvimento Sustentável Abordados
 
@@ -216,6 +219,7 @@ Este projeto foi desenvolvido por uma equipe dedicada de estudantes:
   - Configurações do App.jsx e estilos globais (index.css)
   - Documentação completa do projeto (README)
   - Gerenciamento de todos os assets e recursos visuais
+  - **Configuração completa do GitHub Pages** (Vite config, gh-pages, deploy automatizado)
 
 ## 🤝 Contribuindo
 
