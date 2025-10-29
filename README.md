@@ -150,6 +150,25 @@ npm run preview
 yarn preview
 ```
 
+### Deploy no GitHub Pages
+
+O projeto está configurado para deploy automático no GitHub Pages. Para fazer o deploy:
+
+1. **Configure o repositório no GitHub**:
+   - Vá para Settings > Pages no seu repositório
+   - Escolha "GitHub Actions" como source
+
+2. **Push para a branch main**:
+   ```bash
+   git add .
+   git commit -m "feat: configura deploy para GitHub Pages"
+   git push origin main
+   ```
+
+3. **Aguarde o deploy**: O GitHub Actions fará o build e deploy automaticamente
+
+4. **Acesse o site**: Estará disponível em `https://seu-usuario.github.io/quizods-testesoftware/`
+
 ## 🎯 Objetivos de Desenvolvimento Sustentável Abordados
 
 O sistema cobre todos os 17 ODS da ONU:
