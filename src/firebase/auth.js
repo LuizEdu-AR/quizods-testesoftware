@@ -15,7 +15,9 @@ import {
   updateDoc 
 } from 'firebase/firestore'
 import { auth, db } from './config'
-import DefaultProfile from '../assets/img/defaultprofile.webp'
+
+// URL da imagem padrão do perfil (Firebase)
+const DEFAULT_PHOTO_URL = 'https://via.placeholder.com/150/4F46E5/ffffff?text=User'
 
 class FirebaseAuthService {
   constructor() {
@@ -53,9 +55,16 @@ class FirebaseAuthService {
 
       // Atualizar perfil do usuário
       console.log('🔥 FirebaseAuthService: Atualizando perfil...')
+      
+      // Verificar se a foto é uma URL válida ou usar default
+      let photoURL = DEFAULT_PHOTO_URL
+      if (userData.foto && typeof userData.foto === 'string' && userData.foto.startsWith('http')) {
+        photoURL = userData.foto
+      }
+      
       await updateProfile(user, {
         displayName: this.capitalizeFirstLetter(userData.nome),
-        photoURL: userData.foto || DefaultProfile
+        photoURL: photoURL
       })
       console.log('✅ FirebaseAuthService: Perfil atualizado')
 
@@ -65,7 +74,7 @@ class FirebaseAuthService {
         uid: user.uid,
         nome: this.capitalizeFirstLetter(userData.nome),
         email: userData.email,
-        foto: userData.foto || DefaultProfile,
+        foto: userData.foto || DEFAULT_PHOTO_URL,
         createdAt: new Date().toISOString(),
         pontuacao: 0,
         quizzesCompletos: [],
