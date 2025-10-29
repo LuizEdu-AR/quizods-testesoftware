@@ -169,29 +169,6 @@
     object-fit: cover;
 }
 
-.remove-foto-btn {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    background: #e74c3c;
-    color: white;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: bold;
-    transition: background-color 0.2s ease;
-}
-
-.remove-foto-btn:hover {
-    background: #c0392b;
-}
-
 .foto-input {
     display: none;
 }
@@ -495,14 +472,6 @@
         width: 80px;
         height: 80px;
         border-width: 2px;
-    }
-    
-    .remove-foto-btn {
-        width: 22px;
-        height: 22px;
-        font-size: 11px;
-        top: -3px;
-        right: -3px;
     }
     
     .foto-label {
