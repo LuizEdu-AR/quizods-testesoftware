@@ -6,7 +6,6 @@ export default defineConfig({
   plugins: [react()],
   base: '/quizods-testesoftware/',
   build: {
-    outDir: 'dist',
-    assetsDir: 'assets'
+    outDir: 'dist'
   }
 })
