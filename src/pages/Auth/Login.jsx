@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import './Auth.css'
-import userService from '../../services/userService'
+// Usar o serviço unificado que alterna entre localStorage e Firebase
+import { UserService, USE_FIREBASE } from '../../services'
 import { criarDadosExemplo } from '../../utils/dadosExemplo'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 
@@ -18,8 +19,10 @@ function Login() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        // Criar dados de exemplo quando a página de login carregar
-        criarDadosExemplo()
+        // Criar dados de exemplo apenas se estiver usando localStorage
+        if (!USE_FIREBASE) {
+            criarDadosExemplo()
+        }
     }, [])
 
     const handleChange = (e) => {
@@ -37,7 +40,8 @@ function Login() {
         setError('')
 
         try {
-            const result = userService.loginUser(formData.email, formData.password)
+            // Usar o serviço unificado (Firebase ou localStorage)
+            const result = await UserService.loginUser(formData.email, formData.password)
             
             if (result.success) {
                 console.log('Login realizado:', result.user)

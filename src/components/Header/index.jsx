@@ -1,7 +1,8 @@
 import LogoODS from '../../assets/img/logo-ods.png'
 import FotoPessoal from '../../assets/img/foto-pessoal.jpg'
 import DefaultProfile from '../../assets/img/defaultprofile.webp'
-import userService from '../../services/userService'
+// Usar o serviço unificado que alterna entre localStorage e Firebase
+import { UserService, USE_FIREBASE } from '../../services'
 
 import './index.css'
 
@@ -21,8 +22,8 @@ const Header = () => {
     const [isDarkMode, setIsDarkMode] = useState(true) // Start with dark mode as default
     const navigate = useNavigate()
 
-    const handleLogout = () => {
-        userService.logoutUser()
+    const handleLogout = async () => {
+        await UserService.logoutUser()
         navigate('/')
     }
 
@@ -77,8 +78,8 @@ const Header = () => {
         return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
     }
 
-    const refreshUserData = () => {
-        const currentUser = userService.getCurrentUser()
+    const refreshUserData = async () => {
+        const currentUser = await UserService.getCurrentUser()
         if (currentUser) {
             setUserName(capitalizeFirstLetter(currentUser.nome))
             if (currentUser.foto) {
@@ -96,17 +97,21 @@ const Header = () => {
             setGreetingIcon(greetingData.icon)
         }
 
-        // Obter nome do usuário conectado
-        const currentUser = userService.getCurrentUser()
-        if (currentUser) {
-            setUserName(capitalizeFirstLetter(currentUser.nome))
-            // Usar foto do usuário se disponível, senão usar default
-            if (currentUser.foto) {
-                setUserPhoto(currentUser.foto)
-            } else {
-                setUserPhoto(DefaultProfile)
+        // Função para obter dados do usuário
+        const loadUserData = async () => {
+            const currentUser = await UserService.getCurrentUser()
+            if (currentUser) {
+                setUserName(capitalizeFirstLetter(currentUser.nome))
+                // Usar foto do usuário se disponível, senão usar default
+                if (currentUser.foto) {
+                    setUserPhoto(currentUser.foto)
+                } else {
+                    setUserPhoto(DefaultProfile)
+                }
             }
         }
+
+        loadUserData()
 
         // Load saved theme or default to dark
         const savedTheme = localStorage.getItem('theme')

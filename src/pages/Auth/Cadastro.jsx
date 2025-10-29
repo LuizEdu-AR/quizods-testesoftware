@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import './Auth.css'
-import userService from '../../services/userService'
+// Usar o serviço unificado que alterna entre localStorage e Firebase
+import { UserService, USE_FIREBASE } from '../../services'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 
 import LogoODSAuth from '../../assets/img/logoodsauth.png'
@@ -57,13 +58,14 @@ function Cadastro() {
             const emailValidacao = validarEmail(value)
             setEmailValido(emailValidacao.isValid)
             
-            // Verificar se email já existe
-            if (value && emailValidacao.isValid) {
-                const emailExiste = userService.emailExists(value)
-                setEmailJaExiste(emailExiste)
-            } else {
-                setEmailJaExiste(false)
-            }
+            // Verificar se email já existe será feito pelo Firebase
+            // if (value && emailValidacao.isValid) {
+            //     const emailExiste = UserService.emailExists(value)
+            //     setEmailJaExiste(emailExiste)
+            // } else {
+            //     setEmailJaExiste(false)
+            // }
+            setEmailJaExiste(false) // Firebase fará a validação
         }
         
         // Limpar mensagens quando usuário começar a digitar
@@ -211,12 +213,8 @@ function Cadastro() {
             return
         }
 
-        // Verificar se email já existe
-        if (userService.emailExists(formData.email)) {
-            setError('Este email já está em uso. Tente outro email ou faça login.')
-            setLoading(false)
-            return
-        }
+        // Verificar se email já existe será feito pelo Firebase automaticamente
+        // O Firebase retornará erro 'auth/email-already-in-use' se necessário
 
         // Validar senha
         const senhaValidacao = validarSenha(formData.password)
@@ -233,28 +231,39 @@ function Cadastro() {
         }
 
         try {
-            const result = userService.registerUser({
+            console.log('🔥 Iniciando cadastro...', {
+                nome: formData.nome,
+                email: formData.email,
+                senha_length: formData.password.length
+            })
+
+            // Usar o serviço unificado (Firebase ou localStorage)
+            const result = await UserService.registerUser({
                 nome: formData.nome,
                 email: formData.email,
                 password: formData.password,
                 foto: formData.foto || DefaultProfile // Use default profile if no photo is uploaded
             })
 
+            console.log('🔥 Resultado do cadastro:', result)
+
             if (result.success) {
                 setSuccess(result.message)
-                console.log('Usuário cadastrado:', result.user)
+                console.log('✅ Usuário cadastrado:', result.user)
 
                 // Aguardar um pouco antes de redirecionar
                 setTimeout(() => {
                     navigate('/')
                 }, 2000)
             } else {
+                console.log('❌ Erro no cadastro:', result.message)
                 setError(result.message)
             }
         } catch (error) {
-            console.error('Erro no cadastro:', error)
-            setError('Erro interno. Tente novamente.')
+            console.error('❌ Erro no cadastro (catch):', error)
+            setError(`Erro interno: ${error.message}`)
         } finally {
+            console.log('🏁 Finalizando cadastro, setLoading(false)')
             setLoading(false)
         }
     }
