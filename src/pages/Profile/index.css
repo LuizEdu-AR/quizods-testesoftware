@@ -130,6 +130,8 @@
 .password-toggle-btn {
     position: absolute;
     right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
     background: none;
     border: none;
     cursor: pointer;
@@ -137,8 +139,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0;
+    padding: 8px;
+    width: 32px;
+    height: 32px;
     transition: color 0.2s ease;
+    z-index: 2;
 }
 
 .password-toggle-btn:hover {
@@ -317,4 +322,243 @@
     font-size: 0.8rem;
     margin-top: 0.25rem;
     display: block;
+}
+
+/* Responsividade - Tablet (810px) */
+@media (max-width: 810px) {
+    .settings-main {
+        padding: 15px 20px;
+        max-width: 100%;
+    }
+    
+    .settings-container {
+        padding: 20px;
+    }
+    
+    .settings-header {
+        gap: 15px;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+    }
+    
+    .settings-header h1 {
+        font-size: 24px;
+    }
+    
+    .back-button {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+    
+    .settings-content {
+        gap: 25px;
+    }
+    
+    .settings-section {
+        padding: 16px;
+    }
+    
+    .section-header h3 {
+        font-size: 16px;
+    }
+    
+    .edit-btn {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+    
+    .foto-preview-img {
+        width: 120px;
+        height: 120px;
+        border-width: 3px;
+    }
+    
+    .current-photo-img {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .foto-label {
+        padding: 8px 20px;
+        font-size: 14px;
+    }
+    
+    .form-actions {
+        gap: 10px;
+    }
+    
+    .save-btn,
+    .cancel-btn {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+}
+
+/* Responsividade - Mobile (390px) */
+@media (max-width: 390px) {
+    .settings-main {
+        padding: 10px 15px;
+    }
+    
+    .settings-container {
+        padding: 15px;
+        border-radius: 8px;
+    }
+    
+    .settings-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+    }
+    
+    .settings-header h1 {
+        font-size: 20px;
+        order: 2;
+    }
+    
+    .back-button {
+        order: 1;
+        padding: 8px 12px;
+        font-size: 13px;
+        align-self: flex-start;
+    }
+    
+    .settings-content {
+        gap: 20px;
+    }
+    
+    .settings-section {
+        padding: 12px;
+    }
+    
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 12px;
+    }
+    
+    .section-header h3 {
+        font-size: 15px;
+    }
+    
+    .edit-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+        align-self: flex-start;
+    }
+    
+    .current-value {
+        font-size: 14px;
+    }
+    
+    .edit-form {
+        gap: 12px;
+    }
+    
+    .edit-form input {
+        padding: 12px;
+        font-size: 16px; /* Evita zoom no iOS */
+    }
+    
+    .password-input-container {
+        position: relative;
+        width: 100%;
+    }
+    
+    .password-input-container input {
+        width: 100%;
+        padding-right: 55px !important;
+        padding: 12px;
+        padding-right: 55px;
+        min-height: 48px;
+        font-size: 16px; /* Evita zoom no iOS */
+    }
+    
+    .password-toggle-btn {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #666;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px;
+        width: 40px;
+        height: 40px;
+        z-index: 2;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .save-btn,
+    .cancel-btn {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px; /* Evita zoom no iOS */
+    }
+    
+    .foto-upload-container {
+        gap: 12px;
+    }
+    
+    .foto-preview-img {
+        width: 100px;
+        height: 100px;
+        border-width: 3px;
+    }
+    
+    .current-photo-img {
+        width: 80px;
+        height: 80px;
+        border-width: 2px;
+    }
+    
+    .foto-label {
+        padding: 10px 16px;
+        font-size: 14px;
+        width: 100%;
+        max-width: 200px;
+        text-align: center;
+    }
+    
+    .error-message,
+    .success-message {
+        padding: 10px;
+        font-size: 14px;
+    }
+    
+    .senha-requisitos {
+        padding: 10px;
+        margin-top: 10px;
+    }
+    
+    .requisitos-titulo {
+        font-size: 0.8rem;
+        margin-bottom: 0.4rem;
+    }
+    
+    .requisito {
+        font-size: 0.75rem;
+        margin-bottom: 0.2rem;
+    }
+    
+    .requisito-icon {
+        width: 14px;
+        height: 14px;
+        font-size: 0.6rem;
+    }
+    
+    .senha-erro {
+        font-size: 0.75rem;
+    }
 }

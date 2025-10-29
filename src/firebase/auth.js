@@ -3,7 +3,10 @@ import {
   signInWithEmailAndPassword, 
   signOut, 
   onAuthStateChanged,
-  updateProfile 
+  updateProfile,
+  updatePassword,
+  EmailAuthProvider,
+  reauthenticateWithCredential
 } from 'firebase/auth'
 import { 
   doc, 
@@ -170,6 +173,38 @@ class FirebaseAuthService {
     } catch (error) {
       console.error('Erro ao atualizar usuário:', error)
       return { success: false, message: 'Erro ao atualizar usuário!' }
+    }
+  }
+
+  // Alterar senha do usuário
+  async changePassword(currentPassword, newPassword) {
+    try {
+      const user = auth.currentUser
+      if (!user) {
+        return { success: false, message: 'Usuário não autenticado!' }
+      }
+
+      // Reautenticar o usuário com a senha atual
+      const credential = EmailAuthProvider.credential(user.email, currentPassword)
+      await reauthenticateWithCredential(user, credential)
+
+      // Atualizar para a nova senha
+      await updatePassword(user, newPassword)
+
+      return { success: true, message: 'Senha alterada com sucesso!' }
+    } catch (error) {
+      console.error('Erro ao alterar senha:', error)
+      
+      let message = 'Erro interno do servidor.'
+      if (error.code === 'auth/wrong-password') {
+        message = 'Senha atual incorreta!'
+      } else if (error.code === 'auth/weak-password') {
+        message = 'A nova senha deve ter pelo menos 6 caracteres!'
+      } else if (error.code === 'auth/requires-recent-login') {
+        message = 'Por favor, faça login novamente antes de alterar a senha.'
+      }
+      
+      return { success: false, message }
     }
   }
 

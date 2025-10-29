@@ -23,6 +23,10 @@ class UserService {
     return await FirebaseAuthService.updateUser(userId, updateData)
   }
 
+  async changePassword(currentPassword, newPassword) {
+    return await FirebaseAuthService.changePassword(currentPassword, newPassword)
+  }
+
   async updateScore(userId, newScore) {
     return await FirebaseAuthService.updateScore(userId, newScore)
   }

@@ -332,6 +332,8 @@
 .password-toggle-btn {
     position: absolute;
     right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
     background: none;
     border: none;
     cursor: pointer;
@@ -339,8 +341,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0;
+    padding: 8px;
+    width: 32px;
+    height: 32px;
     transition: color 0.2s ease;
+    z-index: 2;
 }
 
 .password-toggle-btn:hover {
@@ -350,4 +355,207 @@
 .password-toggle-btn:disabled {
     cursor: not-allowed;
     opacity: 0.5;
+}
+
+/* Responsividade - Tablet (810px) */
+@media (max-width: 810px) {
+    .auth-container {
+        flex-direction: column;
+        gap: 40px;
+        padding: 15px;
+    }
+    
+    .auth-logo-img {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .auth-card {
+        max-width: 450px;
+        padding: 1.5rem;
+    }
+    
+    .auth-h2 {
+        font-size: 1.6rem;
+        margin-bottom: 1.2rem;
+    }
+    
+    .foto-preview {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .foto-label {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+    
+    .requisitos-titulo {
+        font-size: 0.9rem;
+    }
+    
+    .requisito {
+        font-size: 0.85rem;
+    }
+}
+
+/* Responsividade - Mobile (390px) */
+@media (max-width: 390px) {
+    .auth-container {
+        gap: 20px;
+        padding: 10px;
+        min-height: 100vh;
+        justify-content: flex-start;
+        padding-top: 20px;
+    }
+    
+    .auth-logo-container {
+        margin-top: 10px;
+    }
+    
+    .auth-logo-img {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .auth-card {
+        max-width: 100%;
+        width: 100%;
+        padding: 1.2rem;
+        margin: 0 5px;
+    }
+    
+    .auth-h2 {
+        font-size: 1.4rem;
+        margin-bottom: 1rem;
+        padding-top: 10px;
+    }
+    
+    .form-group {
+        gap: 0.8rem;
+    }
+    
+    .form-group label {
+        margin-bottom: 0.4rem;
+        font-size: 0.9rem;
+    }
+    
+    .form-group input {
+        padding: 0.8rem;
+        font-size: 16px; /* Evita zoom no iOS */
+        min-height: 48px; /* Altura mínima para touch */
+    }
+    
+    .password-input-container {
+        position: relative;
+        width: 100%;
+    }
+    
+    .password-input {
+        width: 100%;
+        padding-right: 55px !important;
+        padding: 0.8rem;
+        padding-right: 55px;
+    }
+    
+    .password-toggle-btn {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #666;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px;
+        width: 40px;
+        height: 40px;
+        z-index: 2;
+    }
+    
+    .auth-button {
+        padding: 0.9rem;
+        font-size: 16px; /* Evita zoom no iOS */
+        margin-top: 0.8rem;
+    }
+    
+    .auth-link {
+        margin-top: 1.2rem;
+        font-size: 0.9rem;
+    }
+    
+    .foto-upload-container {
+        gap: 0.8rem;
+    }
+    
+    .foto-preview {
+        width: 80px;
+        height: 80px;
+        border-width: 2px;
+    }
+    
+    .remove-foto-btn {
+        width: 22px;
+        height: 22px;
+        font-size: 11px;
+        top: -3px;
+        right: -3px;
+    }
+    
+    .foto-label {
+        padding: 0.7rem 1rem;
+        font-size: 0.85rem;
+        width: 100%;
+        max-width: 200px;
+    }
+    
+    .foto-help {
+        font-size: 0.75rem;
+    }
+    
+    .senha-requisitos {
+        padding: 0.6rem;
+        margin-top: 0.6rem;
+    }
+    
+    .requisitos-titulo {
+        font-size: 0.8rem;
+        margin-bottom: 0.4rem;
+    }
+    
+    .requisito {
+        font-size: 0.75rem;
+        margin-bottom: 0.2rem;
+    }
+    
+    .requisito-icon {
+        width: 14px;
+        height: 14px;
+        font-size: 0.6rem;
+    }
+    
+    .error-message,
+    .success-message {
+        padding: 0.6rem;
+        font-size: 0.85rem;
+    }
+    
+    .dominios-permitidos {
+        padding: 0.4rem;
+    }
+    
+    .dominios-help {
+        font-size: 0.7rem;
+    }
+    
+    .email-erro {
+        font-size: 0.75rem;
+    }
+    
+    .senha-erro {
+        font-size: 0.75rem;
+    }
 }

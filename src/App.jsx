@@ -6,6 +6,7 @@ import Home from './pages/Home/Home'
 import Quiz from './components/Quiz'
 import MainHome from './components/MainHome'
 import Profile from './pages/Profile'
+import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
   return (
@@ -14,9 +15,21 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/cadastro" element={<Cadastro />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/quiz/:odsId" element={<Quiz />} />
-          <Route path="/perfil" element={<Profile />} />
+          <Route path="/home" element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          } />
+          <Route path="/quiz/:odsId" element={
+            <ProtectedRoute>
+              <Quiz />
+            </ProtectedRoute>
+          } />
+          <Route path="/perfil" element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          } />
         </Routes>
       </div>
     </Router>

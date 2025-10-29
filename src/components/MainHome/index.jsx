@@ -9,8 +9,8 @@ import LogoOds1 from '../../assets/img/ods1.jpg'
 
 import './index.css'
 
-import quizService from '../../services/quizService'
-import favoriteService from '../../services/favoriteService'
+// Usar o serviço unificado que alterna entre localStorage e Firebase
+import { QuizService, FavoriteService, UserService } from '../../services'
 import { QuestionsMocks } from '../Quiz/questionsMocks'
 
 import { OdsMocks } from './mocks';
@@ -23,13 +23,35 @@ const MainHome = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Load completion status when component mounts
-    const status = quizService.getCompletionStatus()
-    setCompletionStatus(status)
+    // Load completion status and favorites from Firebase
+    const loadUserData = async () => {
+      try {
+        const currentUser = await UserService.getCurrentUser()
+        if (currentUser) {
+          // Load quiz progress
+          const progress = await QuizService.getUserProgress(currentUser.id || currentUser.uid)
+          
+          // Convert quiz progress to completion status format
+          const status = {}
+          progress.quizzesCompletos.forEach(quiz => {
+            status[quiz.odsId] = {
+              completed: true,
+              score: quiz.pontos,
+              percentage: quiz.percentualAcerto
+            }
+          })
+          setCompletionStatus(status)
+          
+          // Load favorites
+          const favs = await FavoriteService.getFavorites(currentUser.id || currentUser.uid)
+          setFavorites(favs)
+        }
+      } catch (error) {
+        console.error('Erro ao carregar dados do usuário:', error)
+      }
+    }
     
-    // Load favorites
-    const favs = favoriteService.getFavorites()
-    setFavorites(favs)
+    loadUserData()
   }, [])
 
   const handleCardClick = (ods) => {
@@ -40,13 +62,23 @@ const MainHome = () => {
     navigate(`/quiz/${selectedOds.id}`);
   };
 
-  const handleToggleFavorite = (e) => {
+  const handleToggleFavorite = async (e) => {
     e.stopPropagation() // Prevent card selection when clicking heart
-    favoriteService.toggleFavorite(selectedOds.id)
-    setFavorites(favoriteService.getFavorites()) // Update state
+    
+    try {
+      const currentUser = await UserService.getCurrentUser()
+      if (currentUser) {
+        await FavoriteService.toggleFavorite(currentUser.id || currentUser.uid, selectedOds.id)
+        // Update local state
+        const updatedFavs = await FavoriteService.getFavorites(currentUser.id || currentUser.uid)
+        setFavorites(updatedFavs)
+      }
+    } catch (error) {
+      console.error('Erro ao atualizar favorito:', error)
+    }
   };
 
-  const isFavorite = favoriteService.isFavorite(selectedOds.id);
+  const isFavorite = favorites.includes(selectedOds.id);
 
   // Filter ODS based on view mode
   const getFilteredOds = () => {
@@ -131,8 +163,8 @@ const MainHome = () => {
           <div className="quiz-cards-grid">
             {filteredOds.length > 0 ? (
               filteredOds.map((ods) => {
-                const isCompleted = quizService.isQuizCompleted(ods.id)
-                const quizDetails = quizService.getQuizDetails(ods.id)
+                const isCompleted = completionStatus[ods.id]?.completed || false
+                const quizDetails = completionStatus[ods.id] || {}
                 const questionsCount = QuestionsMocks[ods.id]?.length || 10
                 
                 return (
@@ -160,7 +192,7 @@ const MainHome = () => {
                           } else if (isInProgress) {
                             return (
                               <span className="status-badge in-progress">
-                                Em andamento ({quizDetails.percentage}%)
+                                Não finalizado ({quizDetails.percentage}%)
                               </span>
                             )
                           } else {

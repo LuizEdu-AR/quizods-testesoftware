@@ -1,6 +1,6 @@
 # QuizODS - Sistema de Quiz Educacional sobre ODS
 
-Um aplicativo web interativo desenvolvido com React que oferece quizzes educacionais sobre os 17 Objetivos de Desenvolvimento Sustentável (ODS) da ONU. O sistema inclui funcionalidades avançadas como sistema de usuários, favoritos, acompanhamento de progresso e interface responsiva.
+Um aplicativo web interativo desenvolvido com React que oferece quizzes educacionais sobre os 17 Objetivos de Desenvolvimento Sustentável (ODS) da ONU. O sistema inclui funcionalidades avançadas como sistema de usuários com Firebase, favoritos, acompanhamento de progresso e interface totalmente responsiva.
 
 ## 🌟 Visão Geral
 
@@ -11,40 +11,53 @@ O QuizODS foi desenvolvido como parte de um projeto de Teste de Software, oferec
 - **React 18** - Biblioteca para construção de interfaces de usuário
 - **Vite** - Ferramenta de build moderna e rápida
 - **React Router DOM** - Roteamento para aplicações React
-- **CSS3** - Estilização com variáveis CSS e design responsivo
-- **LocalStorage API** - Persistência de dados no navegador
+- **Firebase** - Plataforma de desenvolvimento web com autenticação e banco de dados
+  - **Firebase Authentication** - Sistema de autenticação seguro
+  - **Cloud Firestore** - Banco de dados NoSQL em tempo real
+- **CSS3** - Estilização com variáveis CSS e design totalmente responsivo
+- **LocalStorage API** - Persistência de dados local (modo fallback)
 - **React Icons** - Biblioteca de ícones
 
 ## ✨ Funcionalidades Principais
 
-### Sistema de Usuários
-- ✅ Cadastro e login de usuários
+### Sistema de Usuários com Firebase
+- ✅ Cadastro e login de usuários com Firebase Authentication
 - ✅ Gerenciamento de perfil com foto personalizada
-- ✅ Dados de progresso individualizados por usuário
+- ✅ Persistência segura de dados no Cloud Firestore
 - ✅ Sistema de saudações baseado no horário (Bom dia/Boa tarde/Boa noite)
 - ✅ Indicador de pontuação total no cabeçalho
+- ✅ Proteção de rotas e verificação de autenticação
+- ✅ Fallback para localStorage quando Firebase não está disponível
 
 ### Quiz Interativo
 - ✅ 17 quizzes diferentes (um para cada ODS)
-- ✅ Perguntas múltipla escolha
+- ✅ Perguntas múltipla escolha com explicações
 - ✅ Sistema de pontuação em tempo real
-- ✅ Feedback instantâneo para respostas
+- ✅ Feedback instantâneo para respostas corretas/incorretas
 - ✅ Acompanhamento de progresso por quiz
+- ✅ Histórico de quizzes completados
+- ✅ Navegação intuitiva entre questões
 
-### Interface e Experiência
-- ✅ Design responsivo e moderno
+### Interface Totalmente Responsiva
+- ✅ **Design responsivo** para todas as resoluções:
+  - **Desktop** (acima de 810px)
+  - **Tablet** (810px)
+  - **Mobile L** (425px) 
+  - **Mobile** (390px)
+- ✅ Menu hamburger para dispositivos móveis
 - ✅ Sistema de tema claro/escuro com alternância
-- ✅ Sistema de favoritos personalizado
-- ✅ Filtros para visualizar todos os quizzes ou apenas favoritos
-- ✅ Interface intuitiva com navegação fluida
-- ✅ Indicadores visuais de progresso
+- ✅ Touch targets otimizados para mobile
+- ✅ Layout adaptativo para todas as páginas
+- ✅ Componentes de carregamento estilizados
 
 ### Recursos Avançados
-- ✅ Persistência de dados no navegador
-- ✅ Sistema de busca de quizzes
+- ✅ Sistema de favoritos com persistência no Firebase
+- ✅ Filtros para visualizar todos os quizzes ou apenas favoritos
+- ✅ Interface intuitiva com navegação fluida
+- ✅ Indicadores visuais de progresso e status
 - ✅ Resultados detalhados com percentual de acerto
-- ✅ Histórico de conclusão de quizzes
-- ✅ Logout seguro com limpeza de sessão
+- ✅ Sistema de rotas protegidas
+- ✅ Logout seguro com limpeza completa de sessão
 
 ## 🛠️ Instalação e Execução
 
@@ -84,17 +97,18 @@ yarn dev
 ## 📖 Como Usar
 
 ### Primeiros Passos
-1. **Cadastro/Login**: Crie uma conta ou faça login com credenciais existentes
-2. **Dashboard Principal**: Visualize todos os 17 ODS disponíveis
+1. **Cadastro/Login**: Crie uma conta ou faça login com credenciais existentes (Firebase)
+2. **Dashboard Principal**: Visualize todos os 17 ODS disponíveis em layout responsivo
 3. **Seleção de Quiz**: Clique em qualquer card de ODS para ver detalhes
 4. **Iniciar Quiz**: Clique em "Iniciar" para começar o quiz selecionado
 
 ### Funcionalidades Avançadas
-- **Favoritos**: Clique no ❤️ para adicionar/remover quizzes dos favoritos
+- **Favoritos**: Clique no ❤️ para adicionar/remover quizzes dos favoritos (persistido no Firebase)
 - **Filtros**: Use os botões "Todos" e "Favoritos" para filtrar a visualização
-- **Busca**: Utilize a barra de pesquisa no header para encontrar quizzes específicos
 - **Progresso**: Acompanhe seu progresso através dos badges de status nos cards
 - **Tema**: Alterne entre modo claro e escuro usando o botão de tema no cabeçalho
+- **Responsividade**: Acesse de qualquer dispositivo com layout otimizado
+- **Menu Mobile**: Em dispositivos móveis, use o menu hamburger para navegação
 
 ## 🏗️ Estrutura do Projeto
 
@@ -102,20 +116,28 @@ yarn dev
 src/
 ├── assets/            # Recursos estáticos
 │   └── img/           # Imagens dos ODS
-├── components/          # Componentes React
-│   ├── Header/         # Cabeçalho com navegação
-│   ├── MainHome/       # Dashboard principal
-│   ├── Quiz/           # Sistema de quiz
-│   ├── Login/          # Sistema de autenticação
-│   └── Footer/         # Rodapé da aplicação
-├── hooks/              # Custom hooks React
-├── pages/              # Páginas da aplicação
-├── services/           # Serviços e lógica de negócio
-│   ├── userService.js  # Gerenciamento de usuários
-│   ├── quizService.js  # Lógica dos quizzes
-│   └── favoriteService.js # Sistema de favoritos
-├── utils/              # Funções utilitárias
-└── App.jsx            # Componente principal
+├── components/        # Componentes React
+│   ├── Header/        # Cabeçalho com navegação responsiva
+│   ├── MainHome/      # Dashboard principal responsivo
+│   ├── Quiz/          # Sistema de quiz interativo
+│   ├── ProtectedRoute/# Proteção de rotas autenticadas
+│   └── Footer/        # Rodapé da aplicação
+├── firebase/          # Configuração e serviços Firebase
+│   ├── config.js      # Configuração do Firebase
+│   └── auth.js        # Serviços de autenticação
+├── hooks/             # Custom hooks React
+├── pages/             # Páginas da aplicação
+│   ├── Auth/          # Sistema de autenticação
+│   ├── Home/          # Página principal
+│   └── Profile/       # Gerenciamento de perfil
+├── services/          # Serviços e lógica de negócio
+│   ├── userService.js # Gerenciamento de usuários (localStorage)
+│   ├── userServiceFirebase.js # Gerenciamento com Firebase
+│   ├── quizService.js # Lógica dos quizzes
+│   ├── favoriteService.js # Sistema de favoritos
+│   └── index.js       # Serviço unificado (Firebase/localStorage)
+├── utils/             # Funções utilitárias
+└── App.jsx           # Componente principal com roteamento
 ```
 
 ## 🧪 Testes
@@ -204,6 +226,7 @@ Este projeto foi desenvolvido por uma equipe dedicada de estudantes:
   - Criação e implementação das páginas Home e Auth
   - Desenvolvimento completo do sistema de Quiz (JSX e CSS)
   - Implementação de todas as funcionalidades do Header (saudações, tema, pontuação)
+  - **Responsividade**: Trabalhou junto com Luiz na implementação completa do design responsivo
 
 ### 🧑‍💻 Éverson
 - **GitHub**: [github.com/Everson-Alisson](https://github.com/Everson-Alisson)
@@ -211,6 +234,7 @@ Este projeto foi desenvolvido por uma equipe dedicada de estudantes:
   - Desenvolvimento da página de Profile e gerenciamento de perfil
   - Criação dos mocks e dados dos quizzes
   - Implementação de todas as funcionalidades do MainHome (dashboard, filtros, favoritos)
+  - **Firebase**: Trabalhou junto com Luiz na implementação completa do Firebase Authentication e Firestore
 
 ### 🧑‍💻 Luiz
 - **GitHub**: [github.com/LuizEdu-AR](https://github.com/LuizEdu-AR)
@@ -220,6 +244,27 @@ Este projeto foi desenvolvido por uma equipe dedicada de estudantes:
   - Documentação completa do projeto (README)
   - Gerenciamento de todos os assets e recursos visuais
   - **Configuração completa do GitHub Pages** (Vite config, gh-pages, deploy automatizado)
+  - **Firebase**: Trabalhou junto com Éverson na implementação completa do Firebase Authentication e Firestore
+  - **Responsividade**: Trabalhou junto com Evelyn na implementação completa do design responsivo
+
+## 🔥 Recursos Especiais Implementados
+
+### 🔐 Sistema Firebase Completo
+**Implementado por Luiz e Éverson**
+- Autenticação segura com Firebase Authentication
+- Banco de dados em tempo real com Cloud Firestore
+- Sincronização de dados entre dispositivos
+- Fallback inteligente para localStorage
+- Verificação de estado de autenticação em tempo real
+
+### 📱 Design Totalmente Responsivo
+**Implementado por Luiz e Evelyn**
+- Breakpoints otimizados: Desktop (810px+), Tablet (810px), Mobile L (425px), Mobile (390px)
+- Menu hamburger para dispositivos móveis
+- Touch targets otimizados para mobile
+- Layout adaptativo em todas as páginas
+- Componentes de loading responsivos
+- Sistema de tema responsivo
 
 ## 🤝 Contribuindo
 
@@ -247,6 +292,15 @@ Para dúvidas, sugestões ou relatórios de bugs, abra uma issue no repositório
 
 ---
 
-**© 2024 Todos os direitos reservados à Luiz, Evelyn e Éverson**
+**© 2024 Todos os direitos reservados à Luiz Eduardo, Evelyn e Éverson**
 
 *Desenvolvido com ❤️ para promover educação sobre sustentabilidade e os Objetivos de Desenvolvimento Sustentável da ONU.*
+
+### 🏆 Destaques Técnicos
+
+- **Sistema Híbrido**: Firebase + LocalStorage para máxima compatibilidade
+- **Design Responsivo**: 4 breakpoints otimizados para todos os dispositivos
+- **Autenticação Segura**: Firebase Authentication com proteção de rotas
+- **Deploy Automatizado**: GitHub Pages com pipeline de deploy automático
+- **UX Otimizada**: Loading states, feedback visual e navegação intuitiva
+- **Código Limpo**: Estrutura modular e bem documentada

@@ -4,7 +4,8 @@ import { OdsMocks } from '../MainHome/mocks'
 import { QuestionsMocks } from './questionsMocks'
 import Header from '../Header'
 import './index.css'
-import quizService from '../../services/quizService'
+// Usar o serviço unificado que alterna entre localStorage e Firebase
+import { QuizService, UserService } from '../../services'
 
 const Quiz = () => {
   const { odsId } = useParams()
@@ -110,8 +111,29 @@ const Quiz = () => {
           setScore(finalScore)
           setQuizCompleted(true)
           
-          // Save completion status
-          quizService.markQuizCompleted(parseInt(odsId), finalScore, questions.length)
+          // Save completion status no Firebase
+          const saveResult = async () => {
+            try {
+              const currentUser = await UserService.getCurrentUser()
+              if (currentUser) {
+                const quizResult = {
+                  odsId: parseInt(odsId),
+                  pontos: finalScore,
+                  totalPerguntas: questions.length,
+                  percentualAcerto: Math.round((finalScore / questions.length) * 100),
+                  respostas: selectedAnswers,
+                  completedAt: new Date().toISOString()
+                }
+                
+                await QuizService.saveQuizResult(currentUser.id || currentUser.uid, quizResult)
+                console.log('✅ Resultado do quiz salvo no Firebase!')
+              }
+            } catch (error) {
+              console.error('❌ Erro ao salvar resultado:', error)
+            }
+          }
+          
+          saveResult()
         }
       }, 3000)
     }

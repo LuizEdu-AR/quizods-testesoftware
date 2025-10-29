@@ -14,16 +14,10 @@ function Home() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Verificar se usuário está logado
-    const checkUser = async () => {
+    // Carregar dados do usuário (a autenticação já foi verificada pelo ProtectedRoute)
+    const loadUserData = async () => {
       try {
         const user = await UserService.getCurrentUser()
-        if (!user) {
-          // Se não estiver logado, redirecionar para a página inicial (login)
-          navigate('/')
-          return
-        }
-
         setCurrentUser(user)
         
         // Criar dados de exemplo apenas se estiver usando localStorage
@@ -32,17 +26,18 @@ function Home() {
           mostrarEstatisticas()
         }
         
-        console.log('👋 Bem-vindo,', user.nome + '!')
+        if (user) {
+          console.log('👋 Bem-vindo,', user.nome + '!')
+        }
       } catch (error) {
-        console.error('Erro ao verificar usuário:', error)
-        navigate('/')
+        console.error('Erro ao carregar dados do usuário:', error)
       } finally {
         setLoading(false)
       }
     }
     
-    checkUser()
-  }, [navigate])
+    loadUserData()
+  }, [])
 
   const handleLogout = async () => {
     await UserService.logoutUser()
@@ -50,11 +45,55 @@ function Home() {
   }
 
   if (loading) {
-    return <div>Carregando...</div>
+    return (
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: '100vh',
+        backgroundColor: 'var(--bg-secondary)',
+        color: 'var(--text-primary)'
+      }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ 
+            width: '50px', 
+            height: '50px', 
+            border: '3px solid var(--color-primary)', 
+            borderTop: '3px solid transparent', 
+            borderRadius: '50%', 
+            animation: 'spin 1s linear infinite',
+            margin: '0 auto 20px'
+          }}></div>
+          <p>Carregando dados do usuário...</p>
+        </div>
+      </div>
+    )
   }
 
   if (!currentUser) {
-    return <div>Carregando...</div>
+    return (
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: '100vh',
+        backgroundColor: 'var(--bg-secondary)',
+        color: 'var(--text-primary)'
+      }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ 
+            width: '50px', 
+            height: '50px', 
+            border: '3px solid var(--color-primary)', 
+            borderTop: '3px solid transparent', 
+            borderRadius: '50%', 
+            animation: 'spin 1s linear infinite',
+            margin: '0 auto 20px'
+          }}></div>
+          <p>Preparando sua experiência...</p>
+        </div>
+      </div>
+    )
   }
 
   return (

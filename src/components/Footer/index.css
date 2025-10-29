@@ -11,3 +11,28 @@
   font-size: 14px;
   font-weight: 600;
 }
+
+/* Responsividade - Tablet (810px) */
+@media (max-width: 810px) {
+  .footer-container {
+    padding: 16px 0;
+  }
+  
+  .copyright-text {
+    font-size: 13px;
+    padding: 0 20px;
+  }
+}
+
+/* Responsividade - Mobile (390px) */
+@media (max-width: 390px) {
+  .footer-container {
+    padding: 12px 0;
+  }
+  
+  .copyright-text {
+    font-size: 12px;
+    padding: 0 15px;
+    line-height: 1.4;
+  }
+}

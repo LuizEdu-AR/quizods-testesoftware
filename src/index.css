@@ -39,4 +39,29 @@ body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden; /* Evita scroll horizontal */
+}
+
+/* Responsividade global */
+html {
+  font-size: 16px;
+}
+
+/* Tablet - 810px */
+@media (max-width: 810px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+/* Mobile - 390px */
+@media (max-width: 390px) {
+  html {
+    font-size: 14px;
+  }
+  
+  /* Garantir que inputs não causem zoom no iOS */
+  input, select, textarea {
+    font-size: 16px !important;
+  }
 }

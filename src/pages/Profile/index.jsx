@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 import { BiArrowBack } from 'react-icons/bi'
 import Header from '../../components/Header'
-import userService from '../../services/userService'
+// Usar o serviço unificado que alterna entre localStorage e Firebase
+import { UserService } from '../../services'
 import DefaultProfile from '../../assets/img/defaultprofile.webp'
 import './index.css'
 
@@ -16,8 +17,7 @@ const Profile = () => {
         currentPassword: '',
         newPassword: '',
         confirmPassword: '',
-        foto: null,
-        passwordConfirmation: '' // New field for confirming password when editing name/photo
+        foto: null
     })
     const [fotoPreview, setFotoPreview] = useState(null)
     const [showCurrentPassword, setShowCurrentPassword] = useState(false)
@@ -29,22 +29,29 @@ const Profile = () => {
     const [senhaStatus, setSenhaStatus] = useState({ requisitos: [], isValid: false })
 
     useEffect(() => {
-        const user = userService.getCurrentUser()
-        if (!user) {
-            navigate('/')
-            return
+        const loadUserData = async () => {
+            try {
+                const user = await UserService.getCurrentUser()
+                if (user) {
+                    setCurrentUser(user)
+                    setFormData({
+                        nome: user.nome,
+                        currentPassword: '',
+                        newPassword: '',
+                        confirmPassword: '',
+                        foto: user.foto
+                    })
+                    if (user.foto) {
+                        setFotoPreview(user.foto)
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao carregar dados do usuário:', error)
+                navigate('/')
+            }
         }
-        setCurrentUser(user)
-        setFormData({
-            nome: user.nome,
-            currentPassword: '',
-            newPassword: '',
-            confirmPassword: '',
-            foto: user.foto
-        })
-        if (user.foto) {
-            setFotoPreview(user.foto)
-        }
+        
+        loadUserData()
     }, [navigate])
 
     const handleInputChange = (e) => {
@@ -188,54 +195,44 @@ const Profile = () => {
                         setLoading(false)
                         return
                     }
-                    // Verify password for name change
-                    if (!userService.verifyPassword(currentUser.id, formData.passwordConfirmation)) {
-                        setError('Senha incorreta')
-                        setLoading(false)
-                        return
-                    }
-                    result = userService.updateUserName(currentUser.id, formData.nome)
+                    // Firebase: Atualizar nome
+                    result = await UserService.updateUser(currentUser.id || currentUser.uid, { 
+                        nome: formData.nome 
+                    })
                     break
 
                 case 'senha':
-                    if (!userService.verifyPassword(currentUser.id, formData.currentPassword)) {
-                        setError('Senha atual incorreta')
+                    // Validações da senha
+                    if (!formData.currentPassword) {
+                        setError('Senha atual é obrigatória')
                         setLoading(false)
                         return
                     }
-                    
-                    // Verificar se a nova senha é igual à atual
-                    if (formData.newPassword === formData.currentPassword) {
-                        setError('A nova senha deve ser diferente da senha atual')
+                    if (!formData.newPassword) {
+                        setError('Nova senha é obrigatória')
                         setLoading(false)
                         return
                     }
-                    
-                    // Validar nova senha
-                    const senhaValidacao = validarSenha(formData.newPassword)
-                    if (!senhaValidacao.isValid) {
-                        setError(`A nova senha deve conter: ${senhaValidacao.errors.join(', ')}.`)
-                        setLoading(false)
-                        return
-                    }
-                    
                     if (formData.newPassword !== formData.confirmPassword) {
-                        setError('Nova senha e confirmação não coincidem')
+                        setError('As senhas não coincidem')
+                        setLoading(false)
+                        return
+                    }
+                    if (!senhaStatus.isValid) {
+                        setError('A nova senha não atende aos requisitos')
                         setLoading(false)
                         return
                     }
                     
-                    result = userService.updateUserPassword(currentUser.id, formData.newPassword)
+                    // Firebase: Alterar senha
+                    result = await UserService.changePassword(formData.currentPassword, formData.newPassword)
                     break
-
+                    
                 case 'foto':
-                    // Verify password for photo change
-                    if (!userService.verifyPassword(currentUser.id, formData.passwordConfirmation)) {
-                        setError('Senha incorreta')
-                        setLoading(false)
-                        return
-                    }
-                    result = userService.updateUserPhoto(currentUser.id, formData.foto)
+                    // Firebase: Atualizar foto
+                    result = await UserService.updateUser(currentUser.id || currentUser.uid, { 
+                        foto: formData.foto 
+                    })
                     break
 
                 default:
@@ -247,20 +244,20 @@ const Profile = () => {
             if (result.success) {
                 setSuccess(result.message)
                 // Update current user data
-                const updatedUser = userService.getCurrentUser()
+                const updatedUser = await UserService.getCurrentUser()
                 setCurrentUser(updatedUser)
                 setEditMode(null)
                 
-                // Clear password fields
+                // Clear form fields
                 setFormData({
-                    ...formData,
+                    nome: formData.nome,
                     currentPassword: '',
                     newPassword: '',
                     confirmPassword: '',
-                    passwordConfirmation: ''
+                    foto: formData.foto
                 })
 
-                // No need to reload page - header will update automatically via event
+                // Header will update automatically
             } else {
                 setError(result.message)
             }
@@ -283,15 +280,36 @@ const Profile = () => {
                 currentPassword: '',
                 newPassword: '',
                 confirmPassword: '',
-                foto: currentUser.foto,
-                passwordConfirmation: ''
+                foto: currentUser.foto
             })
             setFotoPreview(currentUser.foto)
         }
     }
 
     if (!currentUser) {
-        return <div>Carregando...</div>
+        return (
+            <div style={{ 
+                display: 'flex', 
+                justifyContent: 'center', 
+                alignItems: 'center', 
+                height: '100vh',
+                backgroundColor: 'var(--bg-secondary)',
+                color: 'var(--text-primary)'
+            }}>
+                <div style={{ textAlign: 'center' }}>
+                    <div style={{ 
+                        width: '50px', 
+                        height: '50px', 
+                        border: '3px solid var(--color-primary)', 
+                        borderTop: '3px solid transparent', 
+                        borderRadius: '50%', 
+                        animation: 'spin 1s linear infinite',
+                        margin: '0 auto 20px'
+                    }}></div>
+                    <p>Carregando perfil...</p>
+                </div>
+            </div>
+        )
     }
 
     return (
@@ -333,17 +351,6 @@ const Profile = () => {
                                         required
                                         disabled={loading}
                                     />
-                                    <div className="password-input-container">
-                                        <input
-                                            type="password"
-                                            name="passwordConfirmation"
-                                            placeholder="Confirme sua senha para salvar"
-                                            value={formData.passwordConfirmation}
-                                            onChange={handleInputChange}
-                                            required
-                                            disabled={loading}
-                                        />
-                                    </div>
                                     <div className="form-actions">
                                         <button type="submit" disabled={loading} className="save-btn">
                                             {loading ? 'Salvando...' : 'Salvar'}
@@ -445,7 +452,7 @@ const Profile = () => {
                                         <small className="senha-erro">As senhas não coincidem</small>
                                     )}
                                     <div className="form-actions">
-                                        <button type="submit" disabled={loading || !senhaStatus.isValid} className="save-btn">
+                                        <button type="submit" disabled={loading || !senhaStatus.isValid || formData.newPassword !== formData.confirmPassword} className="save-btn">
                                             {loading ? 'Salvando...' : 'Salvar'}
                                         </button>
                                         <button type="button" onClick={cancelEdit} className="cancel-btn">
@@ -487,17 +494,6 @@ const Profile = () => {
                                         <label htmlFor="foto" className="foto-label">
                                             {fotoPreview ? 'Trocar foto' : 'Escolher foto'}
                                         </label>
-                                    </div>
-                                    <div className="password-input-container">
-                                        <input
-                                            type="password"
-                                            name="passwordConfirmation"
-                                            placeholder="Confirme sua senha para salvar"
-                                            value={formData.passwordConfirmation}
-                                            onChange={handleInputChange}
-                                            required
-                                            disabled={loading}
-                                        />
                                     </div>
                                     <div className="form-actions">
                                         <button type="submit" disabled={loading} className="save-btn">

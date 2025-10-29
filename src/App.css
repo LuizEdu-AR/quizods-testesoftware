@@ -1,0 +1,100 @@
+/* Estilos globais responsivos */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+.app {
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Containers responsivos globais */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Tablet - 810px */
+@media (max-width: 810px) {
+  .container {
+    padding: 0 15px;
+  }
+  
+  /* Tipografia responsiva */
+  h1 {
+    font-size: 2rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+  
+  h3 {
+    font-size: 1.2rem;
+  }
+  
+  /* Botões responsivos */
+  button:not(.mobile-menu-btn):not(.password-toggle-btn):not(.theme-toggle-btn):not(.filter-button):not(.nav-arrow):not(.option-letter) {
+    min-height: 44px; /* Tamanho mínimo para touch */
+  }
+}
+
+/* Mobile - 390px */
+@media (max-width: 390px) {
+  .container {
+    padding: 0 10px;
+  }
+  
+  /* Tipografia móvel */
+  h1 {
+    font-size: 1.5rem;
+  }
+  
+  h2 {
+    font-size: 1.3rem;
+  }
+  
+  h3 {
+    font-size: 1.1rem;
+  }
+  
+  /* Botões móveis */
+  button:not(.mobile-menu-btn):not(.password-toggle-btn):not(.theme-toggle-btn):not(.filter-button):not(.startquiz-button):not(.nav-arrow):not(.confirm-btn):not(.restart-btn):not(.home-btn) {
+    width: 100%;
+    min-height: 48px;
+    font-size: 16px; 
+  }
+  
+  /* Botões específicos que não devem ter width 100% */
+  .mobile-menu-btn,
+  .password-toggle-btn,
+  .theme-toggle-btn,
+  .filter-button,
+  .startquiz-button,
+  .nav-arrow,
+  .confirm-btn,
+  .restart-btn,
+  .home-btn {
+    width: auto;
+  }
+  
+  /* Inputs móveis */
+  input, select, textarea {
+    font-size: 16px; 
+    min-height: 44px;
+  }
+}
+
+/* Animação de loading */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

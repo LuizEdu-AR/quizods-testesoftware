@@ -37,3 +37,49 @@
   background: rgba(255, 255, 255, 0.3);
   border-color: rgba(255, 255, 255, 0.5);
 }
+
+/* Responsividade - Tablet (810px) */
+@media (max-width: 810px) {
+  .user-info {
+    padding: 0.8rem 1.5rem;
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+  
+  .user-welcome h3 {
+    font-size: 1.1rem;
+  }
+  
+  .user-welcome p {
+    font-size: 0.85rem;
+  }
+  
+  .logout-button {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Responsividade - Mobile (390px) */
+@media (max-width: 390px) {
+  .user-info {
+    padding: 0.6rem 1rem;
+    gap: 12px;
+  }
+  
+  .user-welcome h3 {
+    font-size: 1rem;
+  }
+  
+  .user-welcome p {
+    font-size: 0.8rem;
+  }
+  
+  .logout-button {
+    padding: 0.7rem 1rem;
+    font-size: 0.85rem;
+    width: 100%;
+    max-width: 200px;
+  }
+}

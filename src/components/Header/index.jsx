@@ -10,7 +10,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { HiOutlineViewGrid } from 'react-icons/hi'
-import { BiSearch, BiLogOut, BiUser } from 'react-icons/bi'
+import { BiSearch, BiLogOut, BiUser, BiMenu, BiX } from 'react-icons/bi'
 import { BsSun, BsMoon } from 'react-icons/bs'
 import { HiSun } from 'react-icons/hi'
 
@@ -20,19 +20,27 @@ const Header = () => {
     const [userName, setUserName] = useState('Usuário')
     const [userPhoto, setUserPhoto] = useState(FotoPessoal)
     const [isDarkMode, setIsDarkMode] = useState(true) // Start with dark mode as default
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const navigate = useNavigate()
 
     const handleLogout = async () => {
         await UserService.logoutUser()
+        setIsMobileMenuOpen(false)
         navigate('/')
     }
 
     const handleProfile = () => {
+        setIsMobileMenuOpen(false)
         navigate('/perfil')
     }
 
     const handleLogoClick = () => {
+        setIsMobileMenuOpen(false)
         navigate('/home')
+    }
+
+    const toggleMobileMenu = () => {
+        setIsMobileMenuOpen(!isMobileMenuOpen)
     }
 
     const getGreetingByTime = () => {
@@ -71,6 +79,11 @@ const Header = () => {
 
         // Save theme preference
         localStorage.setItem('theme', newTheme ? 'dark' : 'light')
+        
+        // Close mobile menu after action
+        if (window.innerWidth <= 390) {
+            setIsMobileMenuOpen(false)
+        }
     }
 
     const capitalizeFirstLetter = (str) => {
@@ -132,66 +145,147 @@ const Header = () => {
             refreshUserData()
         }
 
+        // Add event listener for window resize to close mobile menu
+        const handleResize = () => {
+            if (window.innerWidth > 390) {
+                setIsMobileMenuOpen(false)
+            }
+        }
+
         window.addEventListener('userDataUpdated', handleUserUpdate)
+        window.addEventListener('resize', handleResize)
 
         return () => {
             clearInterval(interval)
             window.removeEventListener('userDataUpdated', handleUserUpdate)
+            window.removeEventListener('resize', handleResize)
         }
     }, [])
 
     return (
-        <div className='header-container'>
-            <div className="user-info-container">
-                <div className="photo-container">
-                    <img src={userPhoto} alt="Foto de Perfil" className="photo-img" />
-                </div>
-                <div className="info-profile-container">
-                    <div className="greeting-container">
-                        {greetingIcon}
-                        <p className="greeting-text">{greeting}</p>
+        <>
+            <div className='header-container'>
+                {/* Desktop Header */}
+                <div className="desktop-header">
+                    <div className="user-info-container">
+                        <div className="photo-container">
+                            <img src={userPhoto} alt="Foto de Perfil" className="photo-img" />
+                        </div>
+                        <div className="info-profile-container">
+                            <div className="greeting-container">
+                                {greetingIcon}
+                                <p className="greeting-text">{greeting}</p>
+                            </div>
+                            <p className="user-name-container">{userName}</p>
+                        </div>
+                        <div className="totalscore-container"></div>
                     </div>
-                    <p className="user-name-container">{userName}</p>
+                    <div className="logo-container" onClick={handleLogoClick}>
+                        <img src={LogoODS} alt="Logo ODS" className="logo-img" />
+                        <h1 className="logo-text">Quiz ODS</h1>
+                    </div>
+                    <div className="user-container">
+                        <div className="logout-container">
+                            <BiUser
+                                size={20}
+                                className="logout-icon"
+                                onClick={handleProfile}
+                                title="Perfil"
+                            />
+                        </div>
+                        <div className="theme-toggle-container">
+                            <button
+                                onClick={toggleTheme}
+                                className="theme-toggle-btn"
+                                title={isDarkMode ? 'Mudar para modo claro' : 'Mudar para modo escuro'}
+                            >
+                                {isDarkMode ? (
+                                    <BsSun size={18} className="theme-icon" />
+                                ) : (
+                                    <BsMoon size={18} className="theme-icon" />
+                                )}
+                            </button>
+                        </div>
+                        <div className="logout-container">
+                            <BiLogOut
+                                size={20}
+                                className="logout-icon"
+                                onClick={handleLogout}
+                                title="Sair"
+                            />
+                        </div>
+                    </div>
                 </div>
-                <div className="totalscore-container"></div>
-            </div>
-            <div className="logo-container" onClick={handleLogoClick}>
-                <img src={LogoODS} alt="Logo ODS" className="logo-img" />
-                <h1 className="logo-text">Quiz ODS</h1>
-            </div>
-            <div className="user-container">
-                <div className="logout-container">
-                    <BiUser
-                        size={20}
-                        className="logout-icon"
-                        onClick={handleProfile}
-                        title="Perfil"
-                    />
-                </div>
-                <div className="theme-toggle-container">
-                    <button
-                        onClick={toggleTheme}
-                        className="theme-toggle-btn"
-                        title={isDarkMode ? 'Mudar para modo claro' : 'Mudar para modo escuro'}
+
+                {/* Mobile Header */}
+                <div className="mobile-header">
+                    <div className="logo-container" onClick={handleLogoClick}>
+                        <img src={LogoODS} alt="Logo ODS" className="logo-img" />
+                        <h1 className="logo-text">Quiz ODS</h1>
+                    </div>
+                    <button 
+                        className="mobile-menu-btn"
+                        onClick={toggleMobileMenu}
+                        aria-label="Menu"
                     >
-                        {isDarkMode ? (
-                            <BsSun size={18} className="theme-icon" />
+                        {isMobileMenuOpen ? (
+                            <BiX size={24} />
                         ) : (
-                            <BsMoon size={18} className="theme-icon" />
+                            <BiMenu size={24} />
                         )}
                     </button>
                 </div>
-                <div className="logout-container">
-                    <BiLogOut
-                        size={20}
-                        className="logout-icon"
-                        onClick={handleLogout}
-                        title="Sair"
-                    />
-                </div>
-
             </div>
-        </div>
+
+            {/* Mobile Sidebar */}
+            {isMobileMenuOpen && (
+                <>
+                    <div className="mobile-overlay" onClick={toggleMobileMenu}></div>
+                    <div className="mobile-sidebar">
+                        <div className="sidebar-header">
+                            <div className="user-info-container">
+                                <div className="photo-container">
+                                    <img src={userPhoto} alt="Foto de Perfil" className="photo-img" />
+                                </div>
+                                <div className="info-profile-container">
+                                    <div className="greeting-container">
+                                        {greetingIcon}
+                                        <p className="greeting-text">{greeting}</p>
+                                    </div>
+                                    <p className="user-name-container">{userName}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div className="sidebar-menu">
+                            <button className="sidebar-item" onClick={handleProfile}>
+                                <BiUser size={20} />
+                                <span>Perfil</span>
+                            </button>
+                            
+                            <button className="sidebar-item" onClick={toggleTheme}>
+                                {isDarkMode ? (
+                                    <>
+                                        <BsSun size={20} />
+                                        <span>Modo Claro</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <BsMoon size={20} />
+                                        <span>Modo Escuro</span>
+                                    </>
+                                )}
+                            </button>
+                            
+                            <button className="sidebar-item logout-item" onClick={handleLogout}>
+                                <BiLogOut size={20} />
+                                <span>Sair</span>
+                            </button>
+                        </div>
+                    </div>
+                </>
+            )}
+        </>
     )
 }
 
