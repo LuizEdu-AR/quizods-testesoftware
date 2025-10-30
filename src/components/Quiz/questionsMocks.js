@@ -1366,9 +1366,14 @@ export const QuestionsMocks = {
     {
       id: 4,
       question: "Qual setor é o maior emissor de gases de efeito estufa?",
-      type: "true_false",
-      options: ["Verdadeiro", "Falso"],
-      correctAnswer: 0,
+      type: "multiple_choice",
+      options: [
+        "Agricultura",
+        "Energia",
+        "Transporte",
+        "Indústria"
+      ],
+      correctAnswer: 1,
       explanation: "O setor de energia é o maior responsável pelas emissões globais de gases de efeito estufa."
     },
     {
@@ -1395,9 +1400,14 @@ export const QuestionsMocks = {
     {
       id: 7,
       question: "Qual prática ajuda a mitigar mudanças climáticas?",
-      type: "true_false",
-      options: ["Verdadeiro", "Falso"],
-      correctAnswer: 0,
+      type: "multiple_choice",
+      options: [
+        "Aumentar o uso de combustíveis fósseis",
+        "Reduzir, reutilizar e reciclar materiais",
+        "Desmatar florestas",
+        "Aumentar a poluição"
+      ],
+      correctAnswer: 1,
       explanation: "Reduzir, reutilizar e reciclar materiais ajuda a mitigar as mudanças climáticas."
     },
     {
@@ -1416,9 +1426,14 @@ export const QuestionsMocks = {
     {
       id: 9,
       question: "Qual é a relação entre consumo de energia e mudanças climáticas?",
-      type: "true_false",
-      options: ["Verdadeiro", "Falso"],
-      correctAnswer: 0,
+      type: "multiple_choice",
+      options: [
+        "Não há relação",
+        "O consumo de energia é o principal motor das mudanças climáticas",
+        "Apenas energia renovável causa mudanças climáticas",
+        "Consumo de energia ajuda a reduzir mudanças climáticas"
+      ],
+      correctAnswer: 1,
       explanation: "O consumo de energia, especialmente de combustíveis fósseis, é o principal motor das mudanças climáticas."
     },
     {
@@ -1504,9 +1519,14 @@ export const QuestionsMocks = {
     {
       id: 7,
       question: "Qual prática ajuda a conservar a vida marinha?",
-      type: "true_false",
-      options: ["Verdadeiro", "Falso"],
-      correctAnswer: 0,
+      type: "multiple_choice",
+      options: [
+        "Pesca predatória",
+        "Proteger áreas marinhas e costeiras",
+        "Descartar plástico nos oceanos",
+        "Poluir as águas"
+      ],
+      correctAnswer: 1,
       explanation: "Proteger áreas marinhas e costeiras é fundamental para a conservação da vida marinha."
     },
     {
@@ -1592,9 +1612,14 @@ export const QuestionsMocks = {
     {
       id: 5,
       question: "Qual é a meta da ODS 15 em relação às florestas?",
-      type: "true_false",
-      options: ["Verdadeiro", "Falso"],
-      correctAnswer: 0,
+      type: "multiple_choice",
+      options: [
+        "Desmatar todas as florestas",
+        "Proteger e restaurar ecossistemas florestais",
+        "Usar florestas apenas para madeira",
+        "Ignorar as florestas"
+      ],
+      correctAnswer: 1,
       explanation: "Proteger e restaurar ecossistemas florestais é uma meta específica da ODS 15."
     },
     {
@@ -1613,9 +1638,14 @@ export const QuestionsMocks = {
     {
       id: 7,
       question: "Qual é o impacto da poluição do solo na saúde humana?",
-      type: "true_false",
-      options: ["Verdadeiro", "Falso"],
-      correctAnswer: 0,
+      type: "multiple_choice",
+      options: [
+        "Não há impacto",
+        "Afeta através da contaminação da água e alimentos",
+        "Apenas causa problemas estéticos",
+        "Só afeta as plantas"
+      ],
+      correctAnswer: 1,
       explanation: "A poluição do solo pode afetar a saúde humana através da contaminação da água e dos alimentos."
     },
     {
@@ -1667,9 +1697,14 @@ export const QuestionsMocks = {
     {
       id: 2,
       question: "Qual é a meta da ODS 16 em relação à violência?",
-      type: "true_false",
-      options: ["Verdadeiro", "Falso"],
-      correctAnswer: 0,
+      type: "multiple_choice",
+      options: [
+        "Aumentar a violência",
+        "Reduzir significativamente todas as formas de violência",
+        "Ignorar a violência",
+        "Manter os níveis atuais"
+      ],
+      correctAnswer: 1,
       explanation: "Reduzir significativamente todas as formas de violência e suas consequências é uma meta."
     },
     {
@@ -1688,9 +1723,14 @@ export const QuestionsMocks = {
     {
       id: 4,
       question: "Qual é a relação entre corrupção e ODS 16?",
-      type: "true_false",
-      options: ["Verdadeiro", "Falso"],
-      correctAnswer: 0,
+      type: "multiple_choice",
+      options: [
+        "Corrupção é benéfica para a sociedade",
+        "Reduzir a corrupção e promover a transparência são metas importantes",
+        "Corrupção não afeta a justiça",
+        "Não há relação entre corrupção e ODS 16"
+      ],
+      correctAnswer: 1,
       explanation: "Reduzir a corrupção e promover a transparência são metas importantes da ODS 16."
     },
     {
@@ -1709,9 +1749,14 @@ export const QuestionsMocks = {
     {
       id: 6,
       question: "Qual prática ajuda a promover sociedades pacíficas?",
-      type: "true_false",
-      options: ["Verdadeiro", "Falso"],
-      correctAnswer: 0,
+      type: "multiple_choice",
+      options: [
+        "Promover conflitos",
+        "Promover a inclusão social, econômica e política",
+        "Aumentar a desigualdade",
+        "Excluir grupos vulneráveis"
+      ],
+      correctAnswer: 1,
       explanation: "Promover a inclusão social, econômica e política ajuda a construir sociedades pacíficas."
     },
     {
@@ -1730,9 +1775,14 @@ export const QuestionsMocks = {
     {
       id: 8,
       question: "Qual é a relação entre desenvolvimento sustentável e ODS 16?",
-      type: "true_false",
-      options: ["Verdadeiro", "Falso"],
-      correctAnswer: 0,
+      type: "multiple_choice",
+      options: [
+        "Não há relação",
+        "O desenvolvimento sustentável é essencial para promover sociedades pacíficas",
+        "Desenvolvimento sustentável causa conflitos",
+        "Apenas afeta questões ambientais"
+      ],
+      correctAnswer: 1,
       explanation: "O desenvolvimento sustentável é essencial para promover sociedades pacíficas e inclusivas."
     },
     {
@@ -1751,9 +1801,14 @@ export const QuestionsMocks = {
     {
       id: 10,
       question: "Qual é o papel da educação na ODS 16?",
-      type: "true_false",
-      options: ["Verdadeiro", "Falso"],
-      correctAnswer: 0,
+      type: "multiple_choice",
+      options: [
+        "Não há papel para a educação",
+        "Promover valores de paz, tolerância e inclusão",
+        "Apenas ensinar matemática",
+        "Aumentar conflitos"
+      ],
+      correctAnswer: 1,
       explanation: "A educação é crucial para promover valores de paz, tolerância e inclusão."
     }
   ],
@@ -1776,9 +1831,14 @@ export const QuestionsMocks = {
     {
       id: 2,
       question: "Qual é a meta da ODS 17 em relação à cooperação internacional?",
-      type: "true_false",
-      options: ["Verdadeiro", "Falso"],
-      correctAnswer: 0,
+      type: "multiple_choice",
+      options: [
+        "Reduzir a cooperação internacional",
+        "Reforçar a cooperação internacional",
+        "Eliminar parcerias",
+        "Trabalhar isoladamente"
+      ],
+      correctAnswer: 1,
       explanation: "Reforçar a cooperação internacional é fundamental para alcançar os objetivos de desenvolvimento sustentável."
     },
     {
@@ -1797,9 +1857,14 @@ export const QuestionsMocks = {
     {
       id: 4,
       question: "Qual é a relação entre comércio e ODS 17?",
-      type: "true_false",
-      options: ["Verdadeiro", "Falso"],
-      correctAnswer: 0,
+      type: "multiple_choice",
+      options: [
+        "Comércio não afeta o desenvolvimento",
+        "Comércio justo e sustentável é importante para o desenvolvimento",
+        "Apenas comércio local é importante",
+        "Comércio prejudica o desenvolvimento"
+      ],
+      correctAnswer: 1,
       explanation: "O comércio justo e sustentável é importante para o desenvolvimento econômico e a redução da pobreza."
     },
     {
@@ -1818,9 +1883,14 @@ export const QuestionsMocks = {
     {
       id: 6,
       question: "Qual prática ajuda a fortalecer parcerias para o desenvolvimento sustentável?",
-      type: "true_false",
-      options: ["Verdadeiro", "Falso"],
-      correctAnswer: 0,
+      type: "multiple_choice",
+      options: [
+        "Trabalhar isoladamente",
+        "Fortalecer parcerias entre governos, setor privado e sociedade civil",
+        "Competir em vez de colaborar",
+        "Evitar parcerias internacionais"
+      ],
+      correctAnswer: 1,
       explanation: "Fortalecer parcerias entre governos, setor privado e sociedade civil é essencial."
     },
     {
@@ -1839,9 +1909,14 @@ export const QuestionsMocks = {
     {
       id: 8,
       question: "Qual é a relação entre dados abertos e ODS 17?",
-      type: "true_false",
-      options: ["Verdadeiro", "Falso"],
-      correctAnswer: 0,
+      type: "multiple_choice",
+      options: [
+        "Dados abertos não são importantes",
+        "Dados abertos são importantes para monitorar progresso e transparência",
+        "Apenas dados privados são importantes",
+        "Dados abertos prejudicam o desenvolvimento"
+      ],
+      correctAnswer: 1,
       explanation: "Dados abertos e acessíveis são importantes para monitorar o progresso e promover a transparência."
     },
     {
@@ -1860,9 +1935,14 @@ export const QuestionsMocks = {
     {
       id: 10,
       question: "Qual é o papel da educação na ODS 17?",
-      type: "true_false",
-      options: ["Verdadeiro", "Falso"],
-      correctAnswer: 0,
+      type: "multiple_choice",
+      options: [
+        "Não há papel para a educação",
+        "Capacitar indivíduos e promover o desenvolvimento sustentável",
+        "Apenas ensinar habilidades técnicas",
+        "Reduzir o desenvolvimento"
+      ],
+      correctAnswer: 1,
       explanation: "A educação é crucial para capacitar indivíduos e promover o desenvolvimento sustentável."
     }
   ]

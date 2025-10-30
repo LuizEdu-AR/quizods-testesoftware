@@ -65,20 +65,16 @@ const Quiz = () => {
   }
 
   const handleConfirmAnswer = () => {
-    // Prevent confirming already confirmed questions
     if (confirmedQuestions.has(currentQuestion)) {
       return
     }
     
     if (selectedAnswers[currentQ.id] !== undefined) {
-      // Mark current question as confirmed
       const newConfirmedQuestions = new Set(confirmedQuestions)
       newConfirmedQuestions.add(currentQuestion)
       setConfirmedQuestions(newConfirmedQuestions)
 
-      // Check if this is the last question
       if (currentQuestion === questions.length - 1) {
-        // Check if all questions have been answered
         if (!checkAllQuestionsAnswered()) {
           const unansweredQuestions = getUnansweredQuestions()
           alert(`Você precisa responder todas as questões antes de finalizar o quiz.\nQuestões não respondidas: ${unansweredQuestions.join(', ')}`)
@@ -89,9 +85,7 @@ const Quiz = () => {
       setIsConfirmed(true)
       setShowResult(true)
       
-      // Auto-advance to next unconfirmed question after 3 seconds
       setTimeout(() => {
-        // Find next unconfirmed question
         let nextUnconfirmed = -1
         for (let i = currentQuestion + 1; i < questions.length; i++) {
           if (!newConfirmedQuestions.has(i)) {
@@ -101,17 +95,14 @@ const Quiz = () => {
         }
         
         if (nextUnconfirmed !== -1) {
-          // Move to next unconfirmed question
           setCurrentQuestion(nextUnconfirmed)
           setShowResult(false)
           setIsConfirmed(false)
         } else {
-          // All questions confirmed - finish quiz
           const finalScore = calculateScore()
           setScore(finalScore)
           setQuizCompleted(true)
           
-          // Save completion status no Firebase
           const saveResult = async () => {
             try {
               const currentUser = await UserService.getCurrentUser()
@@ -247,7 +238,7 @@ const Quiz = () => {
         <nav className="breadcrumb">
           <span onClick={() => navigate('/home')} className="breadcrumb-link">Início</span>
           <span className="breadcrumb-separator">&gt;</span>
-          <span onClick={() => navigate('/home')} className="breadcrumb-link">ODS</span>
+          <span onClick={() => navigate('/home')} className="breadcrumb-link">{selectedOds.textAlt}</span>
           <span className="breadcrumb-separator">&gt;</span>
           <span className="breadcrumb-current">{currentQ.question}</span>
         </nav>
